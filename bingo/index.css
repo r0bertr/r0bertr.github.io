@@ -1,0 +1,66 @@
+#bingo-playground {
+  widows: 100%;
+  border: 1px solid black;
+}
+
+.bingo-row {
+  width: 100%;
+  text-align: center;
+}
+
+.bingo-cell {
+  position: relative;
+  display: table-cell;
+  width: 198px;
+  height: 198px;
+  border: 1px solid black;
+  vertical-align: middle;
+}
+
+#container {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rasis {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 50%;
+}
+.grace {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.tune-title {
+  font-size: 15px !important;
+  word-wrap: break-word;
+  padding: 0 !important;
+  margin: 0 !important;
+  margin-top: 10px !important;
+}
+
+.tune-score {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.rasis {
+  background-color: #fff4f9;
+}
+
+.grace {
+  background-color: #f1fbff;
+}
+
+.menu {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
