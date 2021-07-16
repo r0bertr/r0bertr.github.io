@@ -186,10 +186,10 @@ $(function () {
     for (var i = 0; i < results.length; i++) {
       var arrangeText = ''
       if (results[i].arrange[0].row == results[i].arrange[1].row) {
-        arrangeText = 'row ' + results[i].arrange[0].row + 1
+        arrangeText = 'row ' + (results[i].arrange[0].row + 1)
       }
       if (results[i].arrange[0].col == results[i].arrange[1].col) {
-        arrangeText = 'col ' + results[i].arrange[0].col + 1
+        arrangeText = 'col ' + (results[i].arrange[0].col + 1)
       }
       if (results[i].arrange[0].row == results[i].arrange[0].col && results[i].arrange[1].row == results[i].arrange[1].col) {
         arrangeText = 'major diagonal'
