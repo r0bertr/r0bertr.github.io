@@ -419,7 +419,7 @@
       
 
       
-        <p><a href="https://leetcode.com/problems/minimum-cost-to-hire-k-workers/">Problem Link</a></p>
+        <p><a href="https://leetcode.com/problems/minimum-cost-to-hire-k-workers/" target="_blank" rel="noopener">Problem Link</a></p>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>给定<code>N</code>个工人，每个工人有一个<code>quality</code>值和一个<code>wage</code>值，要求在<code>N</code>个工人中雇佣<code>K</code>个人，并按照如下标准发放工资：</p>
 <ul>
 <li>每个人被发放的工资<code>pay</code>与<code>quality</code>的比值必须相同。</li>
@@ -432,7 +432,7 @@
 <p>定义价性比<code>ratio = wage / quality</code>，表达每个工人单位<code>quality</code>期望的工资，定义实际价性比<code>ratio_ = pay / quality</code>，那么由题中第二个条件可知：</p>
 <p><strong>选定的<code>K</code>个人中，每人发放的实际工资<code>pay</code>与<code>quality</code>的比值必须大于<code>ratio</code>。</strong></p>
 <p>综上所述，可得本题关键性的信息：</p>
-<p><strong>选定的<code>K</code>个人中，<code>ratio_ &gt;= max&#123;ratio&#125;</code>，即实际价性比不得低于雇佣的工人中最高的期望价性比。</strong></p>
+<p><strong>选定的<code>K</code>个人中，<code>ratio_ &gt;= max{ratio}</code>，即实际价性比不得低于雇佣的工人中最高的期望价性比。</strong></p>
 <p>又因为总工资<code>cost = ratio_ * sum(quality)</code>，所以要使得总工资尽可能的小，就要使<code>ratio_</code>和<code>sum(quality)</code>尽可能小，因此可得具体的算法流程如下：</p>
 <ol>
 <li>对所有人按价性比进行排序。</li>

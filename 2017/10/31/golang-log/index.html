@@ -435,8 +435,8 @@
 logFile, _ := os.Open(&quot;myLogFile&quot;)
 myLogger := log.New(logFile, &quot;[INFO]&quot;, log.Ldate|log.Ltime)</code></pre><p>创建一个Logger，输出到文件<code>myLogFile</code>中，每一条记录规定加上前缀<code>INFO</code>，以及日期和时间。</p>
 <h2 id="使用-Logger"><a href="#使用-Logger" class="headerlink" title="使用 Logger"></a>使用 Logger</h2><p>Logger创建完了，我们得记录啊。记录的时候用Logger自带的方法就行了，最简单的例如</p>
-<pre><code>func (l *Logger) Println(v ...interface&#123;&#125;)</code></pre><p>复杂点的，像</p>
-<pre><code>func (l *Logger) Fatalln(v ...interface&#123;&#125;)</code></pre><p>Fatal执行完之后会直接异常退出程序（执行<code>os.Exit(1)</code>)</p>
+<pre><code>func (l *Logger) Println(v ...interface{})</code></pre><p>复杂点的，像</p>
+<pre><code>func (l *Logger) Fatalln(v ...interface{})</code></pre><p>Fatal执行完之后会直接异常退出程序（执行<code>os.Exit(1)</code>)</p>
 <p>还有什么<code>Panicln</code>，会在执行之后执行<code>panic()</code>（发生了很恐怖的错误，吓得我赶紧把程序关了）</p>
 <p>以及一些<code>get</code>和<code>set</code>函数就没了，相当轻量级啊，不过能满足需要就是好东西。</p>
 <p>实际使用一下：</p>
@@ -444,7 +444,7 @@ myLogger := log.New(logFile, &quot;[INFO]&quot;, log.Ldate|log.Ltime)</code></pr
 
 myLogger.Println(&quot;[r0beRT] Login&quot;)</code></pre><p>运行之后看起来就像这个样子</p>
 <pre><code>[INFO] 2017/10/31 15:11:39 [r0beRT] Login</code></pre><p>log包简单易用，但是我们得自己定义我们的输出，要定义的有用而又优雅，没有多余信息且又面面俱到，输出结果还符合国际一般规范（不成文），才是大头啊，还是得自己去多看多用，积累经验呀。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://golang.org/pkg/log/">log - The Go Programming Language</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://golang.org/pkg/log/" target="_blank" rel="noopener">log - The Go Programming Language</a></p>
 
       
     </div>

@@ -421,10 +421,10 @@
       
 
       
-        <p><a href="https://leetcode.com/problems/sliding-puzzle/">Problem Link</a></p>
+        <p><a href="https://leetcode.com/problems/sliding-puzzle/" target="_blank" rel="noopener">Problem Link</a></p>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>LeetCode第773号问题是一个“六数码”问题，跟人们熟知的八数码问题唯一区别在于棋盘大小。本问题是一个在2*3的棋盘上的六数码问题，最大的状态数为全排列的个数<code>6!=720</code>，因此可以放心使用宽度优先搜索寻找答案。</p>
 <h2 id="宽度优先搜索"><a href="#宽度优先搜索" class="headerlink" title="宽度优先搜索"></a>宽度优先搜索</h2><p>定义一个棋盘“局面”为图中的一个点，从问题给定的初始结点出发进行宽度优先搜索，每次搜索一步能到达的所有相邻结点。</p>
-<img src="/2018/11/19/leetcode-773/graph.png" class>
+<img src="/2018/11/19/leetcode-773/graph.png">
 
 <p>除了每次搜索相邻所有节点以外，还要记住所有已经访问过的节点，避免重复访问造成死循环。</p>
 <p>宽度优先搜索以队列作为主要数据结构实现，实现过程中为了优化速度，可以将状态使用更加高效的方式表示，例如用字符串或一维的排列表示要优于使用二维数组表示。</p>

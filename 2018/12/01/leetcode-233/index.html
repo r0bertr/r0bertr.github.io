@@ -421,7 +421,7 @@
       
 
       
-        <p><a href="https://leetcode.com/problems/number-of-digit-one/">Problem Link</a></p>
+        <p><a href="https://leetcode.com/problems/number-of-digit-one/" target="_blank" rel="noopener">Problem Link</a></p>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>给定一个整数<code>n</code>，求所有小于等于<code>n</code>的非负整数中数字<code>1</code>的个数之和。</p>
 <h2 id="暴力求解（TLE）"><a href="#暴力求解（TLE）" class="headerlink" title="暴力求解（TLE）"></a>暴力求解（TLE）</h2><p>本题可使用暴力求解枚举每一个小于等于<code>n</code>的非负整数，虽然C语言给定的参数是<code>int</code>，但穷举依然会超时。</p>
 <p>时间复杂度：$O(n)$<br>空间复杂度：$O(1)$</p>
@@ -445,7 +445,7 @@
 <li>$n_{(d)} = 1$，则对于任意$0 \le k \le n’$，首位的1都会计算一次次数，这部分的次数为<code>nums[i - 1] + 1</code>次；同时，$10^{d - 1}$的部分则为$d - 1$个$9$组成的数字的答案。</li>
 <li>$n_{(d)} &gt; 1$，则$n_{(d)} * 10^{d - 1}$的部分包括$n_{(d)}$个$d - 1$个$9$组成的数字的答案以及经过第$d$位为1时数字的个数共$10^{d - 1}$个。</li>
 </ul>
-<img src="/2018/12/01/leetcode-233/example.png" class>
+<img src="/2018/12/01/leetcode-233/example.png">
 
 <p>综上所述，算法的时间复杂度为$O(d)$，空间复杂度为$O(d)$，其中$d$为数字的位数。</p>
 <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><a href="/2018/12/01/leetcode-233/leetcode-233.pdf" title="我的解答">我的解答</a>

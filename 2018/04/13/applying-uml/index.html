@@ -429,11 +429,11 @@
 <p>接下来，通过引入一个预定酒店的实例，让您能对用例建模快速入门。预定酒店是互联网常见业务，您会看到两个处于不同时间点的预定酒店系统，通过对比这两个用例模型，您还可以了解到项目早期发现创新点的思路方法。</p>
 <h3 id="早期预定旅馆业务：Asg-RH"><a href="#早期预定旅馆业务：Asg-RH" class="headerlink" title="早期预定旅馆业务：Asg_RH"></a>早期预定旅馆业务：<code>Asg_RH</code></h3><p>有关<code>Asg_RH</code>的相关文档您可以访问<a href="/2018/04/13/applying-uml/Asg_RH.pdf" title="这里">这里</a>。</p>
 <p>如下是一个早期的旅馆预定业务用例图，在这个用例图中，有<code>Actor Client</code>，也就是客户；有一个系统<code>Reserve Hotel</code>和一个外部系统<code>Credit Card Services</code>；有8个用例。</p>
-<img src="/2018/04/13/applying-uml/20180413-181658.png" class>
+<img src="/2018/04/13/applying-uml/20180413-181658.png">
 
 <h3 id="现代旅馆预定业务：Airbnb"><a href="#现代旅馆预定业务：Airbnb" class="headerlink" title="现代旅馆预定业务：Airbnb"></a>现代旅馆预定业务：<code>Airbnb</code></h3><p>严格来说，<code>Airbnb</code>并不是预定酒店，而是预定民宿或度假屋，这里选用<code>Airbnb</code>作为例子有两点考虑：(1)<code>Airbnb</code>包含了所有预定酒店的业务过程；(2)<code>Airbnb</code>的业务流程相对复杂，能够更好地展示用例建模的特性。</p>
 <p>如下是一个<code>Airbnb</code>系统的用例图，在这个用例图中，标红的是与<code>Asg_RH</code>相比新增的用例或外部系统。</p>
-<img src="/2018/04/13/applying-uml/20180414-095658.png" class>
+<img src="/2018/04/13/applying-uml/20180414-095658.png">
 
 <h3 id="对比分析"><a href="#对比分析" class="headerlink" title="对比分析"></a>对比分析</h3><p>两个用例模型分别处于不同的时间和地区。<code>Asg_RH</code>比较早期，主要面向澳大利亚用户，对澳大利亚的地区支持比较完整，业务功能相对比较简单；<code>Airbnb</code>则是一款现代全球住宿预定的解决方案，除了主体业务之外还包含了许多扩展性业务，致力于打造旅游住宿的超级APP。</p>
 <p>在项目早期，您会发现，整个项目的功能需求一定是模糊的、不完整的，在这种情况下，要想进行创新更为困难。使用用例模型的技术，在不断迭代的过程中，可以基本正确地确定主要的业务，并且能够发现一些创新点——根据项目的总体目标，尽可能地在用例图中添加一些用例，例如<code>Airbnb</code>就有”添加民宿到愿望单”和”编写旅行攻略心得”两个创新用例，这与其产品最终定位密切相关。</p>
@@ -573,7 +573,7 @@
 </tbody></table>
 <h2 id="业务建模"><a href="#业务建模" class="headerlink" title="业务建模"></a>业务建模</h2><p>活动图(Activity Diagram)常用于描述一个具体的业务，通过活动流程图与用例模型的组合使用，您可以快速掌握一个具体业务的流程，并发现可能的子用例。</p>
 <h3 id="查找酒店"><a href="#查找酒店" class="headerlink" title="查找酒店"></a>查找酒店</h3><p>如下是<code>Airbnb</code>用例中<code>Get a list of specified houses</code>的活动图，</p>
-<img src="/2018/04/13/applying-uml/20180414-095658.png" class>
+<img src="/2018/04/13/applying-uml/20180414-095658.png">
 
 <p>通过浏览活动图，您可以观察每一个活动是否还有可扩展的地方，例如在选择城市部分，可以考虑</p>
 <ul>
@@ -584,10 +584,10 @@
 </ul>
 <p>不断地对所有活动进行这样的思考，是发现子用例的一个重要方法。</p>
 <h3 id="取款"><a href="#取款" class="headerlink" title="取款"></a>取款</h3><p>使用自动取款机取款是身边的常见业务，如下是一个中国银行ATM取款业务活动图，</p>
-<img src="/2018/04/13/applying-uml/20180414-095658.png" class>
+<img src="/2018/04/13/applying-uml/20180414-095658.png">
 
 <h3 id="淘宝退货"><a href="#淘宝退货" class="headerlink" title="淘宝退货"></a>淘宝退货</h3><p>多泳道图是活动图的一种特殊形式，用于描述业务中不同实体之间的相互关系和协作，如下是描述淘宝网退货业务的一个多泳道图，包含客户、淘宝网、淘宝商家服务系统以及商家四个实体。</p>
-<img src="/2018/04/13/applying-uml/20180414-095658.png" class>
+<img src="/2018/04/13/applying-uml/20180414-095658.png">
 
 <p>客户须要完成退款业务，淘宝网至少要实现如下系统用例：</p>
 <ul>

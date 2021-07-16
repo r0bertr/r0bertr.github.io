@@ -425,16 +425,16 @@
       
         <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>493 is a typical question using the divide-and-conquer method. In fact, we can add only a little process into the general merging procedure of the mergesort to accomplish this task.</p>
 <h2 id="Solution-by-Mergesort"><a href="#Solution-by-Mergesort" class="headerlink" title="Solution by Mergesort"></a>Solution by Mergesort</h2><p>In the general mergesort process, we merge two sorted list into one by moving two indexes in each list. For example, consider two sorted list <code>L=[1, 3, 5, 7]</code> and <code>R=[2, 4, 6, 8]</code>. Let <code>i, j</code> be the indexes. The initial state is</p>
-<img src="/2019/07/02/leetcode-493/merge_state_1.png" class>
+<img src="/2019/07/02/leetcode-493/merge_state_1.png">
 
 <p>We compare the <code>R[i]</code> and <code>L[j]</code> and put the smaller one to the new list. After that, the smaller one&#39;s index move to next one.</p>
-<img src="/2019/07/02/leetcode-493/merge_state_2.png" class>
+<img src="/2019/07/02/leetcode-493/merge_state_2.png">
 
 <p>This process continues until the big list is filled up.</p>
 <p>In 493, what we need to do is just repeat this process similarly once before this process. We still use two indexes and compare the values, but at this time, we should compare <code>L[i]</code> and <code>2 * R[j]</code>.</p>
 <p>If <code>L[i] &gt; 2 * R[j]</code>, then we can make sure that all the elements after <code>i</code> in <code>L</code> are also bigger than <code>2 * R[j]</code> because <code>L</code> is sorted. Thus, we just need to add <code>L.size() - i</code> to the total number and move <code>j</code> to the next one.</p>
 <p>If <code>L[i] &lt;= 2 * R[j]</code>, just move <code>i</code> to the next one.</p>
-<img src="/2019/07/02/leetcode-493/merge_state_3.png" class>
+<img src="/2019/07/02/leetcode-493/merge_state_3.png">
 
 <p>Finally, what we get is two processes. The first one is comparing <code>L[i]</code> and <code>2 * R[j]</code> and modify the number of reverse pairs, and the second one is the general merging process of the mergesort. The two processes only access each element once, so the time complexity is $O(n)$. With the division process time complexity $O(logn)$, the total time complexity of this solution is $O(nlogn)$.</p>
 

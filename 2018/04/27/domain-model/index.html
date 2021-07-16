@@ -437,18 +437,18 @@
 <table>
 <thead>
 <tr>
-<th align="center"><img src="/2018/04/27/domain-model/20180427-105312.png" class></th>
-<th align="center"><img src="/2018/04/27/domain-model/20180427-110924.png" class></th>
+<th align="center"><img src="/2018/04/27/domain-model/20180427-105312.png"></th>
+<th align="center"><img src="/2018/04/27/domain-model/20180427-110924.png"></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="/2018/04/27/domain-model/20180427-111013.png" class></td>
-<td align="center"><img src="/2018/04/27/domain-model/20180427-111102.png" class></td>
+<td align="center"><img src="/2018/04/27/domain-model/20180427-111013.png"></td>
+<td align="center"><img src="/2018/04/27/domain-model/20180427-111102.png"></td>
 </tr>
 </tbody></table>
 <h2 id="构建E-R模型"><a href="#构建E-R模型" class="headerlink" title="构建E-R模型"></a>构建E-R模型</h2><p>根据领域模型，构建E-R模型就相当容易了。数据库模式设计是一个令人头大的问题，尤其是需求频繁更改的时候，更改数据库表的模式往往牵一发而动全身。良好的领域建模，能够规避一部分此类问题。</p>
 <p>如下是根据上述领域模型，使用<code>MySQL Workbench</code>建立的E-R模型，</p>
-<img src="/2018/04/27/domain-model/20180427-112201.png" class>
+<img src="/2018/04/27/domain-model/20180427-112201.png">
 
 <p>E-R模型与数据库之间相关，您可以直接由E-R模型生成本例中对应的<a href="/2018/04/27/domain-model/Asg_RH.sql" title="SQL语句">SQL语句</a>，实现领域模型-ER模型-SQL代码的流水线。</p>
 <h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p>领域模型和E-R模型是完全不同的两回事，领域模型是高层次的模型，具有许多功能；E-R模型重点关注具体的数据库模式。除了进行数据库模式设计，您还可以通过领域模型来</p>

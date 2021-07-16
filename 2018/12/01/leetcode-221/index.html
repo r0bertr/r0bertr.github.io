@@ -419,14 +419,14 @@
       
 
       
-        <p><a href="https://leetcode.com/problems/maximal-square/">Problem Link</a></p>
+        <p><a href="https://leetcode.com/problems/maximal-square/" target="_blank" rel="noopener">Problem Link</a></p>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>一个典型的2D平面上的动态规划问题。给定一个仅有<code>0</code>和<code>1</code>矩阵，找出其中最大的，仅包含<code>1</code>的正方形。</p>
 <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>状态定义：</p>
 <p>定义<code>DP[i][j]</code>表示矩阵<code>M</code>中以位置<code>(i, j)</code>为右下角的最大的正方形的边长。</p>
 <p>状态转移方程：</p>
 <p>由上述状态定义可知，当<code>M[i][j] == 0</code>时，<code>DP[i][j] = 0</code>；否则<code>DP[i][j]</code>由<code>DP[i - 1][j]</code>、<code>DP[i][j - 1]</code>、<code>DP[i - 1][j - 1]</code>中的最小值决定——考虑这三个值相等时，<code>DP[i][j]</code>可以组合使边长增加1，同时若这三个值不同时增加，都无法再增加<code>DP[i][j]</code>的值。</p>
 <p>因此，状态转移方程表示为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DP[i][j] == 0 if M[i][j] == 0</span><br><span class="line">DP[i][j] == M[i][j] if i == 0 || j == 0</span><br><span class="line">DP[i][j] == min&#123;DP[i - 1][j], DP[i][j - 1], DP[i - 1][j - 1]&#125; + 1 if i &gt; 0 &amp;&amp; j &gt; 0 &amp;&amp; M[i][j] == 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DP[i][j] == 0 if M[i][j] == 0</span><br><span class="line">DP[i][j] == M[i][j] if i == 0 || j == 0</span><br><span class="line">DP[i][j] == min&#123;DP[i - 1][j], DP[i][j - 1], DP[i - 1][j - 1]&#125; + 1 if i &gt; 0 &amp;&amp; j &gt; 0 &amp;&amp; M[i][j] == 1</span><br></pre></td></tr></table></figure>
 
 <p>算法的时间复杂度为$O(MN)$，空间复杂度为$O(MN)$，其中输入矩阵为$M \times N$的矩阵。</p>
 <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><a href="/2018/12/01/leetcode-221/leetcode-221.pdf" title="我的解答">我的解答</a>

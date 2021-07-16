@@ -419,7 +419,7 @@
       
 
       
-        <p><a href="https://leetcode.com/problems/edit-distance/">Problem Link</a></p>
+        <p><a href="https://leetcode.com/problems/edit-distance/" target="_blank" rel="noopener">Problem Link</a></p>
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>编辑距离问题是经典的实用问题。给定一个字符串，定义在该字符串的三种操作：</p>
 <ul>
 <li>插入一个字符</li>
@@ -443,7 +443,7 @@
 </li>
 </ul>
 <p>综上，可得状态转移方程如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DP[0][j] = j for all j in 0, 1, ..., |B|</span><br><span class="line">DP[i][0] = i for all i in 0, 1, ..., |A|</span><br><span class="line">DP[i][j] = DP[i - 1][j - 1] if A[i - 1] == B[j - 1]</span><br><span class="line">DP[i][j] = min&#123;DP[i - 1][j], DP[i][j - 1], DP[i - 1][j - 1]&#125; + 1 if A[i - 1] != B[j - 1]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DP[0][j] = j for all j in 0, 1, ..., |B|</span><br><span class="line">DP[i][0] = i for all i in 0, 1, ..., |A|</span><br><span class="line">DP[i][j] = DP[i - 1][j - 1] if A[i - 1] == B[j - 1]</span><br><span class="line">DP[i][j] = min&#123;DP[i - 1][j], DP[i][j - 1], DP[i - 1][j - 1]&#125; + 1 if A[i - 1] != B[j - 1]</span><br></pre></td></tr></table></figure>
 
 <p>时间复杂度：$O(|A||B|)$<br>空间复杂度：$O(|A||B|)$</p>
 <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><a href="/2018/12/01/leetcode-72/leetcode-72.pdf" title="我的解答">我的解答</a>

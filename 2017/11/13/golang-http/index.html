@@ -113,18 +113,18 @@
 
 
 
-  <meta name="description" content="Go语言的内置包net提供了大量api，功能十分强大、实现非常优美，不读一读实在是有点可惜呀。 程序首先，写一个简单的服务器。 package main  import (     &amp;quot;fmt&amp;quot;     &amp;quot;log&amp;quot;     &amp;quot;net/http&amp;quot;     &amp;quot;strings&amp;quot; )  func main() &amp;#123;">
+  <meta name="description" content="Go语言的内置包net提供了大量api，功能十分强大、实现非常优美，不读一读实在是有点可惜呀。 程序首先，写一个简单的服务器。 package main  import (     &amp;quot;fmt&amp;quot;     &amp;quot;log&amp;quot;     &amp;quot;net/http&amp;quot;     &amp;quot;strings&amp;quot; )  func main() {     //">
 <meta name="keywords" content="中文,golang">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang net&#x2F;http 源码分析">
 <meta property="og:url" content="http://yoursite.com/2017/11/13/golang-http/index.html">
 <meta property="og:site_name" content="RASIS">
-<meta property="og:description" content="Go语言的内置包net提供了大量api，功能十分强大、实现非常优美，不读一读实在是有点可惜呀。 程序首先，写一个简单的服务器。 package main  import (     &amp;quot;fmt&amp;quot;     &amp;quot;log&amp;quot;     &amp;quot;net/http&amp;quot;     &amp;quot;strings&amp;quot; )  func main() &amp;#123;">
+<meta property="og:description" content="Go语言的内置包net提供了大量api，功能十分强大、实现非常优美，不读一读实在是有点可惜呀。 程序首先，写一个简单的服务器。 package main  import (     &amp;quot;fmt&amp;quot;     &amp;quot;log&amp;quot;     &amp;quot;net/http&amp;quot;     &amp;quot;strings&amp;quot; )  func main() {     //">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2021-07-14T07:47:51.964Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang net&#x2F;http 源码分析">
-<meta name="twitter:description" content="Go语言的内置包net提供了大量api，功能十分强大、实现非常优美，不读一读实在是有点可惜呀。 程序首先，写一个简单的服务器。 package main  import (     &amp;quot;fmt&amp;quot;     &amp;quot;log&amp;quot;     &amp;quot;net/http&amp;quot;     &amp;quot;strings&amp;quot; )  func main() &amp;#123;">
+<meta name="twitter:description" content="Go语言的内置包net提供了大量api，功能十分强大、实现非常优美，不读一读实在是有点可惜呀。 程序首先，写一个简单的服务器。 package main  import (     &amp;quot;fmt&amp;quot;     &amp;quot;log&amp;quot;     &amp;quot;net/http&amp;quot;     &amp;quot;strings&amp;quot; )  func main() {     //">
 
 
 
@@ -430,7 +430,7 @@ import (
     &quot;strings&quot;
 )
 
-func main() &#123;
+func main() {
     // A simple http server.
     //
     // This server send &quot;Hello user&quot; to client based on URL.
@@ -439,14 +439,14 @@ func main() &#123;
     // $ curl localhost:8080/foo/bar
     // &gt; Hello foo bar!
     //
-    http.HandleFunc(&quot;/&quot;, func(w http.ResponseWriter, r *http.Request) &#123;
+    http.HandleFunc(&quot;/&quot;, func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintf(w, &quot;Hello %s!\n&quot;,
               strings.Join(strings.Split(r.URL.String(), &quot;/&quot;)[1:], &quot; &quot;))
-    &#125;)
+    })
 
     fmt.Println(&quot;Listening to port 8080.&quot;)
     log.Fatal(http.ListenAndServe(&quot;:8080&quot;, nil))
-&#125;</code></pre><p>如注释所说，这个服务器会发一个“Hello xxx”给客户端，一个简单的hello world式程序。</p>
+}</code></pre><p>如注释所说，这个服务器会发一个“Hello xxx”给客户端，一个简单的hello world式程序。</p>
 <h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>虽然这个服务器只有不到10行，但是通过代码追踪（ctrl+鼠标左键），我们可以一层一层地看到<code>net/http</code>包里各种各样的接口。</p>
 <h3 id="http-HandleFunc"><a href="#http-HandleFunc" class="headerlink" title="http.HandleFunc"></a><code>http.HandleFunc</code></h3><pre><code>http.HandleFunc(pattern string, handler func(ResponseWriter, *Request))
 -&gt; (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request))
@@ -458,17 +458,17 @@ func main() &#123;
 </ul>
 <p>这个过程涉及到两个重要结构<code>ServeMux</code>和<code>muxEntry</code>。</p>
 <pre><code>// type ServeMux
-type ServeMux struct &#123;
+type ServeMux struct {
     mu    sync.RWMutex
     m     map[string]muxEntry
     hosts bool // whether any patterns contain hostnames
-&#125;
+}
 // type muxEntry
-type muxEntry struct &#123;
+type muxEntry struct {
     explicit bool
     h        Handler
     pattern  string
-&#125;</code></pre><ul>
+}</code></pre><ul>
 <li><code>mu</code> 一个读写排它锁，用于保证注册<code>Handler</code>过程的原子性。（操作系统知识怎么在这出现了）</li>
 <li><code>m</code> 映射，储存了从<code>URL</code>到<code>muxEntry</code>的映射，<code>muxEntry</code>中包含了处理函数<code>Handler</code>。</li>
 <li><code>hosts</code> 表示是否有某个<code>pattern</code>包含主机名。</li>

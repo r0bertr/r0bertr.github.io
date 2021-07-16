@@ -429,7 +429,7 @@
         <blockquote>
 <p>The principles and techniques for compiler design are applicable to so many other domains that they are likely to be reused many times in the career of a computer scientist. The study of compiler writing touches upon programming languages, machine architecture, language theory, algorithms, and software engineering.</p>
 </blockquote>
-<h1 id="The-General-Structure-of-a-Compiler"><a href="#The-General-Structure-of-a-Compiler" class="headerlink" title="The General Structure of a Compiler"></a>The General Structure of a Compiler</h1><img src="/2019/07/03/important-points-of-compilers/phases-of-a-compiler.png" class>
+<h1 id="The-General-Structure-of-a-Compiler"><a href="#The-General-Structure-of-a-Compiler" class="headerlink" title="The General Structure of a Compiler"></a>The General Structure of a Compiler</h1><img src="/2019/07/03/important-points-of-compilers/phases-of-a-compiler.png">
 
 <h1 id="Context-Free-Grammars"><a href="#Context-Free-Grammars" class="headerlink" title="Context-Free Grammars"></a>Context-Free Grammars</h1><p>A context-free grammar $G$ is defined by the 4-tuple</p>
 <p>$$<br>G = (V, \Sigma, R, S)<br>$$</p>
@@ -546,27 +546,27 @@
 <ol>
 <li>The NFA accepting $L(\epsilon)$ is</li>
 </ol>
-<img src="/2019/07/03/important-points-of-compilers/NFA-epsilon.png" class>
+<img src="/2019/07/03/important-points-of-compilers/NFA-epsilon.png">
 
 <ol start="2">
 <li>The NFA accepting $L(a)$, where $L(a)=\{a\}$, is</li>
 </ol>
-<img src="/2019/07/03/important-points-of-compilers/NFA-a.png" class>
+<img src="/2019/07/03/important-points-of-compilers/NFA-a.png">
 
 <ol start="3">
 <li>The NFA accepting $L(s|t)$, where both $s$ and $t$ are regular expressions, is</li>
 </ol>
-<img src="/2019/07/03/important-points-of-compilers/NFA-union.png" class>
+<img src="/2019/07/03/important-points-of-compilers/NFA-union.png">
 
 <ol start="4">
 <li>The NFA accepting $L(st)$, where both $s$ and $t$ are regular expressions, is</li>
 </ol>
-<img src="/2019/07/03/important-points-of-compilers/NFA-concat.png" class>
+<img src="/2019/07/03/important-points-of-compilers/NFA-concat.png">
 
 <ol start="5">
 <li>The NFA accepting $L(s^*)$, where $s$ is a regular expression, is</li>
 </ol>
-<img src="/2019/07/03/important-points-of-compilers/NFA-asterisk.png" class>
+<img src="/2019/07/03/important-points-of-compilers/NFA-asterisk.png">
 
 <h2 id="Algorithm-Constructing-a-DFA-from-a-Regular-Expression"><a href="#Algorithm-Constructing-a-DFA-from-a-Regular-Expression" class="headerlink" title="Algorithm: Constructing a DFA from a Regular Expression"></a>Algorithm: Constructing a DFA from a Regular Expression</h2><p><strong>INPUT</strong> A regular expression $r$ over alphabet $\Sigma$.</p>
 <p><strong>OUTPUT</strong> A DFA $D$ accepting $L(r)$.</p>
@@ -604,7 +604,7 @@
 <li>Choose one state of each group in $\Pi$ as the representative for that group, which is also a state in $D’$. The start/accepting state of $D’$ is the representative of the group containing the start/accepting state of $D$.</li>
 </ol>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p>Alfred V. A., et al. <em>Compilers Principles, Techniques, &amp; Tools Second Edition</em></p>
-<p>Context-Free Grammar - Wikipedia. <a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+<p>Context-Free Grammar - Wikipedia. <a href="https://en.wikipedia.org/wiki/Context-free_grammar" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
 
       
     </div>

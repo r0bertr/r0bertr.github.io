@@ -285,27 +285,70 @@ $(function () {
         $('#bingo-cell-' + row + '-' + col).html(
           '<div class="rasis">' +
             '<h2 class="tune-title">' + model[row][col]['rasis_tune'] + '</h2>' +
-            '<input type="number" class="tune-score" value="' + model[row][col]['rasis_score'] + '"/>' + 
+            '<input type="number" class="tune-score" value="' + model[row][col]['rasis_score'] + '">' + 
           '</div>' +
           '<div class="grace">' +
             '<h2 class="tune-title">' + model[row][col]['grace_tune'] + '</h2>' +
-            '<input type="number" class="tune-score" value="' + model[row][col]['grace_score'] + '"/>' + 
+            '<input type="number" class="tune-score" value="' + model[row][col]['grace_score'] + '">' + 
           '</div>'
         )
       }
     }
     $('button#btn-run').click(function () {
-      for (var row = 0; row < 3; row++) {
-        for (var col = 0; col < 3; col++) {
-          model[row][col]['rasis_score'] = parseInt($('#bingo-cell-' + row + '-' + col + ' .rasis input').val())
-          model[row][col]['grace_score'] = parseInt($('#bingo-cell-' + row + '-' + col + ' .grace input').val())
+      var fInput = $('#input-file').get(0)
+      if (fInput.files.length) {
+        var reader = new FileReader()
+        var textFile = fInput.files[0]
+        reader.readAsText(textFile)
+        $(reader).on('load', function (e) {
+          var file = e.target.result
+          var lines = file.split('\n')
+          for (var row = 0; row < 3; row++) {
+            var rasisScores = lines[2 * row].split(' ')
+            var graceScores = lines[2 * row + 1].split(' ')
+            for (var col = 0; col < 3; col++) {
+              $('#bingo-cell-' + row + '-' + col + ' .rasis input').val(parseInt(rasisScores[col]))
+              $('#bingo-cell-' + row + '-' + col + ' .grace input').val(parseInt(graceScores[col]))
+            }
+          }
+          for (var row = 0; row < 3; row++) {
+            for (var col = 0; col < 3; col++) {
+              model[row][col]['rasis_score'] = parseInt($('#bingo-cell-' + row + '-' + col + ' .rasis input').val())
+              model[row][col]['grace_score'] = parseInt($('#bingo-cell-' + row + '-' + col + ' .grace input').val())
+            }
+          }
+          volforce = parseFloat($('#input-vf').val())
+          team = $('#input-team').val()
+          showResults(compute())
+        })
+      } else {
+        for (var row = 0; row < 3; row++) {
+          for (var col = 0; col < 3; col++) {
+            model[row][col]['rasis_score'] = parseInt($('#bingo-cell-' + row + '-' + col + ' .rasis input').val())
+            model[row][col]['grace_score'] = parseInt($('#bingo-cell-' + row + '-' + col + ' .grace input').val())
+          }
         }
+        volforce = parseFloat($('#input-vf').val())
+        team = $('#input-team').val()
+        showResults(compute())
       }
-      volforce = parseFloat($('#input-vf').val())
-      team = $('#input-team').val()
-      showResults(compute())
     })
   }
 
   initCells()
+
+  // Set up file format explanation.
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
 })
