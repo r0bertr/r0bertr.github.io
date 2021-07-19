@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="RASIS">
 <meta property="og:description" content="Your VF:          Your Team:            Rasis       Grace                 Upload your score (optional):                 File Format                     6行のテキストファイル。行毎には半角スペースで分割するスコア三つ">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2021-07-16T07:39:16.760Z">
+<meta property="og:updated_time" content="2021-07-19T06:27:38.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bingo">
 <meta name="twitter:description" content="Your VF:          Your Team:            Rasis       Grace                 Upload your score (optional):                 File Format                     6行のテキストファイル。行毎には半角スペースで分割するスコア三つ">
@@ -408,15 +408,18 @@
       <div id="bingo-cell-2-2" class="bingo-cell"></div>
     </div>
   </div>
-  <table>
-    <thead>
-      <th>Score</th>
-      <th>縦・横・斜め</th>
-      <th>Teams(left to right)</th>
-    </thead>
-    <tbody id="results">
-    </tbody>
-  </table>
+  <div id="results-table-container">
+    <table>
+      <thead>
+        <th>#</th>
+        <th>Score</th>
+        <th>縦・横・斜め</th>
+        <th>Teams(left to right)</th>
+      </thead>
+      <tbody id="results">
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

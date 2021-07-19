@@ -95,3 +95,9 @@
   margin-bottom: 20px;
   text-align: left;
 }
+
+#results-table-container {
+  display: block;
+  overflow-y: scroll;
+  height: 200px;
+}

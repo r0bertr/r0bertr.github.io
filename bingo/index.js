@@ -199,6 +199,7 @@ $(function () {
       }
       $('#results').append(
         '<tr>' +
+          '<td>' + (i + 1) + '</td>' + 
           '<td>' + results[i].score + '</td>' +
           '<td>' + arrangeText + '</td>' +
           '<td>' + results[i].teams + '</td>' +
