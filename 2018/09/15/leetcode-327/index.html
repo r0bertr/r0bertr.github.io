@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Problem Link 概要本题要在一个数组中寻找子数组，使得其和落在指定区间内，输出满足条件的数组的个数。要求复杂度低于$O(n^2)$。 方法一  暴力求解您很容易想到$O(n^2)$的暴力求解方法，仅须两层循环将所有子序列的和求出来即可，代码简单，运行的结果也很明了——TLE。 方法二  修改版归并排序事实上，本题是一个归并排序的题目。 Step 1 求前n项和数组由于寻找子数组是一个十分">
+<meta name="keywords" content="中文,leetcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【LeetCode】327. Count of Range Sum">
+<meta property="og:url" content="http://yoursite.com/2018/09/15/leetcode-327/index.html">
+<meta property="og:site_name" content="RASIS">
+<meta property="og:description" content="Problem Link 概要本题要在一个数组中寻找子数组，使得其和落在指定区间内，输出满足条件的数组的个数。要求复杂度低于$O(n^2)$。 方法一  暴力求解您很容易想到$O(n^2)$的暴力求解方法，仅须两层循环将所有子序列的和求出来即可，代码简单，运行的结果也很明了——TLE。 方法二  修改版归并排序事实上，本题是一个归并排序的题目。 Step 1 求前n项和数组由于寻找子数组是一个十分">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2024-10-23T02:57:12.063Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【LeetCode】327. Count of Range Sum">
+<meta name="twitter:description" content="Problem Link 概要本题要在一个数组中寻找子数组，使得其和落在指定区间内，输出满足条件的数组的个数。要求复杂度低于$O(n^2)$。 方法一  暴力求解您很容易想到$O(n^2)$的暴力求解方法，仅须两层循环将所有子序列的和求出来即可，代码简单，运行的结果也很明了——TLE。 方法二  修改版归并排序事实上，本题是一个归并排序的题目。 Step 1 求前n项和数组由于寻找子数组是一个十分">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/15/leetcode-327/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【LeetCode】327. Count of Range Sum | RASIS</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165027-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117165027-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RASIS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-8-puzzle">
+    <a href="/eight-puzzle/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-puzzle-piece"></i> <br>8-Puzzle</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-xiangqi">
+    <a href="/xiangqi/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-gamepad"></i> <br>XiangQi</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/15/leetcode-327/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="r0beRT">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/19709067">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RASIS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【LeetCode】327. Count of Range Sum
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-15T00:00:00+09:00">2018-09-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-23 11:57:12" itemprop="dateModified" datetime="2024-10-23T11:57:12+09:00">2024-10-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://leetcode.com/problems/count-of-range-sum/description/" target="_blank" rel="noopener">Problem Link</a></p>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>本题要在一个数组中寻找子数组，使得其和落在指定区间内，输出满足条件的数组的个数。要求复杂度低于$O(n^2)$。</p>
+<h2 id="方法一-暴力求解"><a href="#方法一-暴力求解" class="headerlink" title="方法一  暴力求解"></a>方法一  暴力求解</h2><p>您很容易想到$O(n^2)$的暴力求解方法，仅须两层循环将所有子序列的和求出来即可，代码简单，运行的结果也很明了——TLE。</p>
+<h2 id="方法二-修改版归并排序"><a href="#方法二-修改版归并排序" class="headerlink" title="方法二  修改版归并排序"></a>方法二  修改版归并排序</h2><p>事实上，本题是一个归并排序的题目。</p>
+<h3 id="Step-1-求前n项和数组"><a href="#Step-1-求前n项和数组" class="headerlink" title="Step 1 求前n项和数组"></a>Step 1 求前n项和数组</h3><p>由于寻找子数组是一个十分麻烦的事情，首先要将原问题进行转化。很容易想到，对于序列$a_i$，任意一个子序列的和</p>
+<p>$$<br>S(a)_{ij} = S(a)_i - S(a)_j<br>$$</p>
+<p>因此对于输入长度为$n$的数组$A$，可以求得一个长度为$n+1$的前n项和数组$S$，那么问题就转化为在该数组中寻找一个元组$(i, j)$，使得</p>
+<p>$$<br>lower \le S_j - S_i \le upper, i \le j<br>$$</p>
+<p>因此算法的第一步是求前n项和数组$S$，遍历一遍数组即可，复杂度为$O(n)$。</p>
+<h3 id="Step-2-分治"><a href="#Step-2-分治" class="headerlink" title="Step 2 分治"></a>Step 2 分治</h3><p>最容易想到的分治就是对半分，本题用对半分对原问题进行分解也是足够的。求给定前n项和数组满足条件的元组个数，先求其前半部分的元组个数，再求其后半部分的元组个数，最后进行组合。根据大师定理，有复杂度的递归表达式</p>
+<p>$$<br>T(n) = 2T(\frac{n}{2}) + O(?)<br>$$</p>
+<p>要使得复杂度低于$O(n^2)$，表达式最后的项也必须低于$O(n^2)$，也就是组合的过程复杂度不能出现两层循环。</p>
+<p>直观来看，对于两个长度为$\frac{n}{2}$的子数组，已知各自满足条件的元组个数，那么剩下的事情就是各自寻找一个元素组成元组，看是否满足题目要求——后面的与前面的差落在给定范围内，显然，对于两个无序的数组是很难做到复杂度低于$O(n^2)$的，那么考虑将数组排序。</p>
+<p>对于两个有序的数列，可以在$O(n)$的复杂度内找到满足条件的元组个数，令两个数组为$L$，$R$，首先有，如果</p>
+<p>$$<br>R_m - L_i \ge lower \<br>R_n - L_i \le upper \<br>m \le n<br>$$</p>
+<p>那么与$L_i$能组成的元组个数即为$n - m$，其次有一个简单但是十分的重要发现，若有</p>
+<p>$$<br>R_m - L_i &lt; lower \<br>R_n - L_i \le upper<br>$$</p>
+<p>则，</p>
+<p>$$<br>R_m - L_k &lt; lower \ \forall k \in [0, i] \<br>R_n - L_k \le upper \ \forall k \in [0, i]<br>$$</p>
+<p>也就是说，对于每一个在$L$中的元素，并不需要便利所有$R$中的元素以找到$m, n$的值，由于$m, n$的值只会增加，不会减少，因此对于所有$L$中的元素仅须便利一次$R$即可，复杂度降为$O(n)$。</p>
+<p>那么最后的问题就是如何得到两个有序的子数列，直接排序会使得复杂度提升为$O(nlogn)$，显然是行不通的。很容易看到这个分治的过程与归并排序的过程一致，因此在过程中“顺便”给每个子数组进行归并排序即可，即把当前的计数求出来后，将两个数组按归并排序算法合成即可，复杂度为$O(n)$。</p>
+<p>最终，根据大师定理，对于递归表达式</p>
+<p>$$<br>T(n) = 2T(\frac{n}{2}) + O(n)<br>$$</p>
+<p>整个算法的复杂度为$T(n) = O(nlogn)$，题目也接受了这个复杂度，Accepted。</p>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><a href="/2018/09/15/leetcode-327/leetcode_327.pdf" title="本人解答">本人解答</a>
+
+<p>用了一个<code>std::inplace_merge</code>简化了归并操作，注意要先向下分解，从最底层开始求次数、归并。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/中文/" rel="tag"># 中文</a>
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/08/leetcode-4/" rel="next" title="【LeetCode】4. Median of Two Sorted Arrays">
+                <i class="fa fa-chevron-left"></i> 【LeetCode】4. Median of Two Sorted Arrays
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/22/leetcode-839/" rel="prev" title="【LeetCode】839. Similar String Groups">
+                【LeetCode】839. Similar String Groups <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/19709067" alt="r0beRT">
+            
+              <p class="site-author-name" itemprop="name">r0beRT</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/r0bertr" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:dr.paper@live.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法一-暴力求解"><span class="nav-number">2.</span> <span class="nav-text">方法一  暴力求解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法二-修改版归并排序"><span class="nav-number">3.</span> <span class="nav-text">方法二  修改版归并排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-求前n项和数组"><span class="nav-number">3.1.</span> <span class="nav-text">Step 1 求前n项和数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-分治"><span class="nav-number">3.2.</span> <span class="nav-text">Step 2 分治</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录"><span class="nav-number">4.</span> <span class="nav-text">附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">r0beRT</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

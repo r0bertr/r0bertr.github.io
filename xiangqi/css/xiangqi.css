@@ -1,0 +1,11 @@
+.xq-board {
+  position: relative;
+  background-image: url("../img/board.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.xq-piece {
+  position: absolute;
+  border: none !important;
+}

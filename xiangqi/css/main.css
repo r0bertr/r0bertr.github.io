@@ -1,0 +1,17 @@
+#xq-container {
+  margin: auto;
+  width: 500px;
+}
+
+#xq-board {
+  margin: auto;
+  width: 500px;
+}
+
+#xq-diff {
+  width: 100%;
+}
+
+#xq-controller {
+  margin-bottom: 20px;
+}

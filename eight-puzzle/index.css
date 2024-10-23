@@ -1,0 +1,50 @@
+#ed-container {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#ed-playground {
+  widows: 100%;
+  border: 1px solid black;
+}
+
+.ed-row {
+  width: 100%;
+  text-align: center;
+}
+
+.ed-cell {
+  display: table-cell;
+  width: 198px;
+  height: 198px;
+  border: 1px solid black;
+  background-color: #5498ff;
+  white-space: nowrap;
+  vertical-align: middle;
+  color: white;
+  font-size: 50px;
+}
+
+#ed-cell-0 {
+  background-color: white;
+}
+
+#ed-controller {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#ed-info {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#ed-input-hFunc {
+  width: 100%;
+}
+
+#ed-input-problem {
+  width: 100%;
+}

@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="The simplest are also the most important. Arrays and Linked ListsIn almost every programming language, arrays are built-in data structures. An array arranges continuous space for objects, and is good">
+<meta name="keywords" content="English">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Common Data Structures and Algorithms">
+<meta property="og:url" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/index.html">
+<meta property="og:site_name" content="RASIS">
+<meta property="og:description" content="The simplest are also the most important. Arrays and Linked ListsIn almost every programming language, arrays are built-in data structures. An array arranges continuous space for objects, and is good">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/heap-insertion.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/heap-deletion.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/bst_insertion.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/bst_deletion.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/avl_rotations.png">
+<meta property="og:updated_time" content="2024-10-23T02:57:12.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Common Data Structures and Algorithms">
+<meta name="twitter:description" content="The simplest are also the most important. Arrays and Linked ListsIn almost every programming language, arrays are built-in data structures. An array arranges continuous space for objects, and is good">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/heap-insertion.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Common Data Structures and Algorithms | RASIS</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165027-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117165027-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RASIS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-8-puzzle">
+    <a href="/eight-puzzle/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-puzzle-piece"></i> <br>8-Puzzle</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-xiangqi">
+    <a href="/xiangqi/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-gamepad"></i> <br>XiangQi</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/common-data-structures-and-algorithms/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="r0beRT">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/19709067">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RASIS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Common Data Structures and Algorithms
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-02 15:26:20" itemprop="dateCreated datePublished" datetime="2019-07-02T15:26:20+09:00">2019-07-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-23 11:57:12" itemprop="dateModified" datetime="2024-10-23T11:57:12+09:00">2024-10-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>The simplest are also the most important.</p>
+<h1 id="Arrays-and-Linked-Lists"><a href="#Arrays-and-Linked-Lists" class="headerlink" title="Arrays and Linked Lists"></a>Arrays and Linked Lists</h1><p>In almost every programming language, arrays are built-in data structures. An array arranges continuous space for objects, and is good at random access. However, arrays perform bad when meet insertions and deletions, and cost a lot to change their sizes.</p>
+<p>With a linked list, insertions and deletions are very fast to perform, but one cannot access objects randomly in a linked list with $O(1)$ time complexity.</p>
+<p>Many complex data structures are implemented based on these two simple data structures.</p>
+<h1 id="Stacks"><a href="#Stacks" class="headerlink" title="Stacks"></a>Stacks</h1><blockquote>
+<p>In a <strong>stack</strong> data structure, all insertions and deletions of entries are made at one end, called the top of the stack. When we add an item to a stack, we say that we push it onto the stack, and when we remove an item, we say that we pop it from the stack. Note that the last item pushed onto a stack is always the first that will be popped from the stack. This property is called <strong>last in, first out</strong>, or <strong>LIFO</strong> for short.</p>
+</blockquote>
+<p>Stacks are simple enough to be understood by only a few sentences. The most important feature of a stack is the <strong>LIFO</strong> property, which is very useful when a task about reversal need to be performed.</p>
+<h2 id="Example-Reverse-a-List"><a href="#Example-Reverse-a-List" class="headerlink" title="Example: Reverse a List"></a>Example: Reverse a List</h2><p>When a series of objects need to be loaded and written out in reverse order, it&#39;s suitable to use a stack to accomplish the task. Consider a series of input as follow,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10 // The number of objects.</span><br><span class="line">1,2,3,4,5,6,7,8,9,10 // The objects.</span><br></pre></td></tr></table></figure>
+
+<p>A list in reverse order should be output like,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10,9,8,7,6,5,4,3,2,1</span><br></pre></td></tr></table></figure>
+
+<p>At this time, a perfect solution is using a stack. After pushing all the numbers into the stack, the reverse order of the list is automatically produced by popping them out.</p>
+<h1 id="Queues"><a href="#Queues" class="headerlink" title="Queues"></a>Queues</h1><blockquote>
+<p>For computer applications, we similarly define a queue to be a list in which all additions to the list are mode at one end, and all deletions from the list are made at the other end. Queues are also called <strong>first-in, first-out lists</strong>, or <strong>FIFO</strong> for short.</p>
+</blockquote>
+<p>As a good brother of stacks, queues are also easy to understand. It&#39;s <strong>FIFO</strong> property is extremely suitable to perform tasks with particular orders, especially when some tasks need to wait for some other tasks.</p>
+<h1 id="Heaps"><a href="#Heaps" class="headerlink" title="Heaps"></a>Heaps</h1><blockquote>
+<p>In a max heap, for any given node $C$, if $P$ is a parent node of $C$, then the key (the value) of $P$ is greater than or equal to the key of $C$. In a min heap, the key of $P$ is less than or equal to the key of $C$.</p>
+</blockquote>
+<p>Heaps are often implemented by a binary tree, and a few important operations are listed below.</p>
+<h2 id="Insertion"><a href="#Insertion" class="headerlink" title="Insertion"></a>Insertion</h2><p>To insert a new node to a heap, the general idea is to do swapping after the node is inserted to the &quot;end&quot;.</p>
+<img src="/2019/07/02/common-data-structures-and-algorithms/heap-insertion.png">
+
+<h2 id="Deletion"><a href="#Deletion" class="headerlink" title="Deletion"></a>Deletion</h2><p>Only the root can be deleted. We move the node in the &quot;end&quot; to the root and heapify.</p>
+<img src="/2019/07/02/common-data-structures-and-algorithms/heap-deletion.png">
+
+<h1 id="Binary-Trees"><a href="#Binary-Trees" class="headerlink" title="Binary Trees"></a>Binary Trees</h1><p>Binary trees are very powerful tools to solve difficult problems, but it is also difficult to determine when to use binary trees and what kinds of trees to use. Here some typical binary trees are introduced, but at first, let&#39;s remember the precise definition of a binary tree.</p>
+<blockquote>
+<p>A binary tree is either empty, or it consists of a node called the <strong>root</strong> together with two binary trees called the <strong>left subtree</strong> and the <strong>right subtree</strong> of the root.</p>
+</blockquote>
+<h2 id="Binary-Search-Trees-BST"><a href="#Binary-Search-Trees-BST" class="headerlink" title="Binary Search Trees (BST)"></a>Binary Search Trees (BST)</h2><blockquote>
+<p>A binary search tree is a binary tree that is either empty or in which every node has a key and satisfies the following conditions:</p>
+<ol>
+<li>The key of the root (if it exists) is greater than the key in any node in the left subtree of the root.</li>
+<li>The key of the root (if it exists) is less than the key in any node in the right substree of the root.</li>
+<li>The left and right subtrees of the root are again binary search trees.</li>
+</ol>
+</blockquote>
+<p>We focus on the search, insertion and deletion of elements on a binary search tree.</p>
+<p><strong>Search</strong> is quite simple. Since the tree has the unequality property and is recursively defined, we can just use a simple recursive or iterative function to accomplish the task. Note that searching a key in the tree has a time complexity $O(log n)$.</p>
+<p><strong>Insertion</strong> requires that after adding to new node to the tree, the tree is still a BST. However, since the tree is not required to be balanced, the process of insertion is quite like the process of search. We search in the tree as if the node has already been inserted, and when we reach a leaf node, we insert the node under that leaf node.</p>
+<img src="/2019/07/02/common-data-structures-and-algorithms/bst_insertion.png">
+
+<p><strong>Deletion</strong> meets difficulties when a node with both left and right subtrees exist. At this time, we find the most farthest and most rightest child of the <strong>left subtree</strong> and replace it with the node. Since the child node is the greatest one of the left subtree and it is still less than any node on the right subtree, the replacement is safe. Note that this node may not be a leaf node but a node with only a left subtree, so a recursive deletion may occur.</p>
+<img src="/2019/07/02/common-data-structures-and-algorithms/bst_deletion.png">
+
+<h2 id="AVL-Trees"><a href="#AVL-Trees" class="headerlink" title="AVL Trees"></a>AVL Trees</h2><p>BSTs are no more than a good start point, because we cannot control the height of the tree when insertions or deletions occur frequently. AVL trees are mean to solve this problem, which can let a BST always be balanced.</p>
+<blockquote>
+<p>An <strong>AVL tree</strong> is a binary search tree in which the heights of the left and right substrees of the root differ by at most 1 and in which the left and right subtrees are again AVL trees.<br>With each node of an AVL tree is associated a <strong>balance factor</strong> that is <strong>left-higher</strong>, <strong>equal-height</strong>, or <strong>right-higher</strong> according, respectively, as the left subtree has height greater than, equal to, or less than that of the right subtree.</p>
+</blockquote>
+<p>The most important feature of an AVL tree is that it will perform some special operations, called rotations, in order to keep balance of the tree when insertions or deletions attempt to break the balance.</p>
+<p>Let us first redefine the concept <strong>balance factor</strong>. Let $H_L(x)$ be the height of the left subtree of the node $x$, and $H_R(x)$ be the height of the right subtree. We say that the balance factor of node $x$</p>
+<p>$$<br>bf(x) = H_L(x) - H_R(x)<br>$$</p>
+<p>Therefore, any node $x$ of an AVL tree satisfies $|bf(x)| \le 1$.</p>
+<p>When we meet a node $x$ that has a balance factor $|bf(x)| &gt; 1$, generally there are four rotations like showing in the following table.</p>
+<img src="/2019/07/02/common-data-structures-and-algorithms/avl_rotations.png">
+
+<p><strong>Insertion</strong> of a new node to an AVL tree has a new step after the node is inserted like a BST. First we insert the node as we insert the node to a BST, and then, we need to check the balance factor from the inserted node backward one by one. When we meet a node $x$ that has a balance factor $|bf(x)| &gt; 1$, we stop immediately and perform a rotation to that node.</p>
+<p><strong>Deletion</strong> of a node in an AVL tree requires checking backward from the deleted node to the root node. If an unbalanced node is found, perform a rotation to that node.</p>
+<h1 id="Recursion"><a href="#Recursion" class="headerlink" title="Recursion"></a>Recursion</h1><blockquote>
+<p>Recursion is the name for the case when a function invokes itself or invokes a sequence of other functions, one of which eventually invokes the first function again.</p>
+</blockquote>
+<p>Recursion is a good way to fast accomplish a specific group of tasks like factorials. However, any recursive program can be rewritten to a iterative program with higher performance. Therefore, in modern software development, it is not a good idea to use recursion directly, but it is still worthwhile to learn because it provides a good method for us to find out answers of some complicated questions.</p>
+<p>There are two main situations under which we may let recursion in. The first one is that we can write a formula which specify the relationship between the current state and one or a few previous states. Besides, an initial state is specified. For example, the factorials can be written like</p>
+<p>$$<br>n! = \begin{cases}<br>    1 &amp;n = 0 \\<br>    n(n - 1)! &amp; n &gt; 0<br>\end{cases}<br>$$</p>
+<p>$n = 0$ is the initial state and when $n &gt; 0$, the result is computed by $(n - 1)!$, a same problem but with a smaller scale.</p>
+<h2 id="Example-The-Towers-of-Hanoi"><a href="#Example-The-Towers-of-Hanoi" class="headerlink" title="Example: The Towers of Hanoi"></a>Example: The Towers of Hanoi</h2><p>If someone would like to teach recursion, he or she must introduce this typical problem – The Towers of Hanoi. This is a question that almost every one knows but, not all people can write down the solution immediately.</p>
+<p>It is not so obvious that this problem is under the first situation, but we still can write down a formula here. Let <code>m(n, s, d, t)</code> represents &quot;the steps move <code>n</code> disks from tower <code>s</code> to tower <code>d</code> using <code>t</code> as a temporary tower.&quot; Therefore, the formula can be written as</p>
+<p>$$<br>m(n, s, d, t) = \begin{cases}<br>\text{do nothing} &amp; n = 0 \\<br>m(n - 1, s, t, d) + m(1, s, d, t) + m(n - 1, t, d, s) &amp; n &gt; 0<br>\end{cases}<br>$$</p>
+<p>The following is a simple <code>C++</code> recursive program to accomplish the task.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> s, <span class="keyword">int</span> d, <span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        move(n - <span class="number">1</span>, s, t, d);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"move %d from %d to %d\n"</span>, n, s, d);</span><br><span class="line">        move(n - <span class="number">1</span>, t, d, s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>One more thing to say is that this program is terrible because every call produces two calls. Thus, with $n$ plates, the total number of calls is</p>
+<p>$$<br>1 + 2 + 4 + \cdots + 2^{n - 1} = 2^n - 1<br>$$</p>
+<p>Therefore, this is a program with $O(2^n)$ time complexity.</p>
+<hr>
+<p>The second situation is that we need to do backtracking during the execution. In other words, we need to undo some operations that have already been done before. At this time, the structure of a recursive program is very useful. The next example is the typical Eight-Queens Puzzle, which will illustrate how the backtracking works.</p>
+<h2 id="Example-The-Eight-Queens-Puzzle"><a href="#Example-The-Eight-Queens-Puzzle" class="headerlink" title="Example: The Eight-Queens Puzzle"></a>Example: The Eight-Queens Puzzle</h2><p>Computers are good at enumerating. When they meet the Eight-Queens Puzzle, they simply try all possible positions row by row. Obviously, it is easy to reach a dead end and a backtracking need to be performed, so we use a recursive structure to accomplish the task.</p>
+<p>The following is a simple <code>C++</code> recursive program to solve the puzzle.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The board is a 8x8 array with 0 representing empty and 1 representing</span></span><br><span class="line"><span class="comment">// a queen.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// canPlace validates whether (row, col) can be placed a queen on the board.</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">canPlace</span><span class="params">(<span class="keyword">int</span> board[<span class="number">8</span>][<span class="number">8</span>], <span class="keyword">int</span> row, <span class="keyword">int</span> col)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Validate the row and the column.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)</span><br><span class="line">        <span class="keyword">if</span> (board[row][i] &amp;&amp; i != col || board[i][col] &amp;&amp; i != row)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Validate the diagonal.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">8</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (board[i][j] &amp;&amp; i != row &amp;&amp; </span><br><span class="line">                (i + j == row + col || i - j == row - col))</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// eightQueensPuzzle returns true when the rows &gt;= row can be placed</span></span><br><span class="line"><span class="comment">// correctly on the board.</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">eightQueensPuzzle</span><span class="params">(<span class="keyword">int</span> board[<span class="number">8</span>][<span class="number">8</span>], <span class="keyword">int</span> row)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (row == <span class="number">8</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Enumerate the row.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (canPlace(board, row, i)) &#123;</span><br><span class="line">            board[row][i] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (eightQueensPuzzle(board, row + <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="comment">// If the rows &gt;= row + 1 can be placed correctly, since the</span></span><br><span class="line">                <span class="comment">// current place is valid, the puzzle is solved.</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// The current place reaches a dead end, try the next place.</span></span><br><span class="line">                board[row][i] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If the current row has one queen placed, a true is returned.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) <span class="keyword">if</span> (board[row][i]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Can you find all solutions of the Eight-Queens Puzzle?</p>
+<h1 id="Searching"><a href="#Searching" class="headerlink" title="Searching"></a>Searching</h1><p>Every one knows the general idea of binary search. The problem is that when to use it to reduce the time complexity of a program. Here I would like to introduce a &quot;standard&quot; implementation of binary search. Note that even the general idea of binary search is the same, the actual times of comparison may still vary from implementations to implementations.</p>
+<p>Here is the code of searching in a sorted <code>vector</code> of integers.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>, right = nums.size() - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">        <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] == target) <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">if</span> (nums[mid] &lt; target) left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sorting"><a href="#Sorting" class="headerlink" title="Sorting"></a>Sorting</h1><p>Sorting is a very facinating topic in the field of algorithms. It can be simple, like perform a selection sort on a list of integers, and suitable for newcommers to learn. It is also worth thinking because the mergesort and the quicksort are two of the most typical algorithms applying the divide-and-conquer method, which are widely used in plenty of tasks. It is extremely useful because it can reduce the time complexity of searching. It also provides judgements of performances of other algorithms. In conclusion, it is worthwhile to learn sorting as many times as you can and to remember it in your heart.</p>
+<p>I am not going to introduce sorting algorithms with $O(n^2)$ time complexity like selection sort or bubble sort. I will main focus on quicksort and mergesort here.</p>
+<h2 id="Mergesort"><a href="#Mergesort" class="headerlink" title="Mergesort"></a>Mergesort</h2><blockquote>
+<p>In the first method, we simply chop the list into two sublists of sizes as nearly equal as possible and then sort them separately. Afterward, we carefully merge the two sorted sublists into a single sorted list.</p>
+</blockquote>
+<p>The main procedure of mergesort is to divide the list into two sublists and perform mergesort on each sublist, repectively. Then the sublists will be merged to a sorted list. This process is recursive. When a sublist only contains one element, this sublist is automatically sorted and the combination begins immediately.</p>
+<p>The following is a common recursive <code>C++</code> implementation to sort a <code>vector</code> of integers.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recursiveMergeSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (left == right) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sort the left sublist and the right sublist, respectively.</span></span><br><span class="line">    <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">    recursiveMergeSort(nums, left, mid);</span><br><span class="line">    recursiveMergeSort(nums, mid + <span class="number">1</span>, right);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Merge the two sublists.</span></span><br><span class="line">    <span class="keyword">int</span> i = left, j = mid + <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp(right - left + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; tmp.size(); k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt;= mid &amp;&amp; j &lt;= right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt;= nums[j]) &#123;</span><br><span class="line">                tmp[k] = nums[j];</span><br><span class="line">                j++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                tmp[k] = nums[i];</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &gt; mid) &#123;</span><br><span class="line">            tmp[k] = nums[j];</span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j &gt; right) &#123;</span><br><span class="line">            tmp[k] = nums[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; tmp.size(); k++) &#123;</span><br><span class="line">        nums[left + k] = tmp[k];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;</span><br><span class="line">    recursiveMergeSort(nums, <span class="number">0</span>, nums.size() - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p>Robert L. K. and Alexander J. R., <em>Data Structures and Program Design in C++</em>.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/English/" rel="tag"># English</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/18/cflp/" rel="next" title="Capacitated Facility Location Problem">
+                <i class="fa fa-chevron-left"></i> Capacitated Facility Location Problem
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/02/leetcode-493/" rel="prev" title="【LeetCode】493. Reverse Pairs">
+                【LeetCode】493. Reverse Pairs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/19709067" alt="r0beRT">
+            
+              <p class="site-author-name" itemprop="name">r0beRT</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/r0bertr" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:dr.paper@live.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Arrays-and-Linked-Lists"><span class="nav-number">1.</span> <span class="nav-text">Arrays and Linked Lists</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stacks"><span class="nav-number">2.</span> <span class="nav-text">Stacks</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Example-Reverse-a-List"><span class="nav-number">2.1.</span> <span class="nav-text">Example: Reverse a List</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Queues"><span class="nav-number">3.</span> <span class="nav-text">Queues</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Heaps"><span class="nav-number">4.</span> <span class="nav-text">Heaps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Insertion"><span class="nav-number">4.1.</span> <span class="nav-text">Insertion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deletion"><span class="nav-number">4.2.</span> <span class="nav-text">Deletion</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binary-Trees"><span class="nav-number">5.</span> <span class="nav-text">Binary Trees</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Binary-Search-Trees-BST"><span class="nav-number">5.1.</span> <span class="nav-text">Binary Search Trees (BST)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AVL-Trees"><span class="nav-number">5.2.</span> <span class="nav-text">AVL Trees</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Recursion"><span class="nav-number">6.</span> <span class="nav-text">Recursion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Example-The-Towers-of-Hanoi"><span class="nav-number">6.1.</span> <span class="nav-text">Example: The Towers of Hanoi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Example-The-Eight-Queens-Puzzle"><span class="nav-number">6.2.</span> <span class="nav-text">Example: The Eight-Queens Puzzle</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Searching"><span class="nav-number">7.</span> <span class="nav-text">Searching</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sorting"><span class="nav-number">8.</span> <span class="nav-text">Sorting</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mergesort"><span class="nav-number">8.1.</span> <span class="nav-text">Mergesort</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">9.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">r0beRT</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

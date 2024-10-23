@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在这篇博客中，您将会看到如何使用百度AI开放平台的语音识别技术和UNIT理解与交互技术，实现一个语音控制智能家居的范例。 准备工作注册百度账号申请应用欲使用百度开放平台的API，要先申请应用，获得API KEY才能通过百度API的鉴权。 在控制台的应用列表中点击创建应用，选择所需接口。     本例中需要的接口为百度语音的语音识别以及UNIT两类。 获取Token在使用百度API前，必须持有百度鉴">
+<meta name="keywords" content="中文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="百度语音AI实践">
+<meta property="og:url" content="http://yoursite.com/2018/04/15/baidu-asr/index.html">
+<meta property="og:site_name" content="RASIS">
+<meta property="og:description" content="在这篇博客中，您将会看到如何使用百度AI开放平台的语音识别技术和UNIT理解与交互技术，实现一个语音控制智能家居的范例。 准备工作注册百度账号申请应用欲使用百度开放平台的API，要先申请应用，获得API KEY才能通过百度API的鉴权。 在控制台的应用列表中点击创建应用，选择所需接口。     本例中需要的接口为百度语音的语音识别以及UNIT两类。 获取Token在使用百度API前，必须持有百度鉴">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-135437.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-135559.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-145336.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-145733.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-151316.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-151357.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-151747.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-154644.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-154702.png">
+<meta property="og:updated_time" content="2024-10-23T02:57:12.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="百度语音AI实践">
+<meta name="twitter:description" content="在这篇博客中，您将会看到如何使用百度AI开放平台的语音识别技术和UNIT理解与交互技术，实现一个语音控制智能家居的范例。 准备工作注册百度账号申请应用欲使用百度开放平台的API，要先申请应用，获得API KEY才能通过百度API的鉴权。 在控制台的应用列表中点击创建应用，选择所需接口。     本例中需要的接口为百度语音的语音识别以及UNIT两类。 获取Token在使用百度API前，必须持有百度鉴">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/15/baidu-asr/20180415-135437.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/15/baidu-asr/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>百度语音AI实践 | RASIS</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165027-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117165027-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RASIS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-8-puzzle">
+    <a href="/eight-puzzle/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-puzzle-piece"></i> <br>8-Puzzle</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-xiangqi">
+    <a href="/xiangqi/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-gamepad"></i> <br>XiangQi</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/15/baidu-asr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="r0beRT">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/19709067">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RASIS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">百度语音AI实践
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-15 00:00:00" itemprop="dateCreated datePublished" datetime="2018-04-15T00:00:00+09:00">2018-04-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-23 11:57:12" itemprop="dateModified" datetime="2024-10-23T11:57:12+09:00">2024-10-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在这篇博客中，您将会看到如何使用百度AI开放平台的语音识别技术和UNIT理解与交互技术，实现一个语音控制智能家居的范例。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="注册百度账号"><a href="#注册百度账号" class="headerlink" title="注册百度账号"></a>注册百度账号</h3><h3 id="申请应用"><a href="#申请应用" class="headerlink" title="申请应用"></a>申请应用</h3><p>欲使用百度开放平台的API，要先申请应用，获得API KEY才能通过百度API的鉴权。</p>
+<p>在控制台的应用列表中点击创建应用，选择所需接口。</p>
+<img src="/2018/04/15/baidu-asr/20180415-135437.png" title="应用列表">
+
+<img src="/2018/04/15/baidu-asr/20180415-135559.png" title="创建新应用">
+
+<p>本例中需要的接口为百度语音的语音识别以及UNIT两类。</p>
+<h3 id="获取Token"><a href="#获取Token" class="headerlink" title="获取Token"></a>获取Token</h3><p>在使用百度API前，必须持有百度鉴权发放的Token。获取Token的API如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">### OAuth [GET https://openapi.baidu.com/oauth/2.0/token]</span><br><span class="line"></span><br><span class="line">+ Parameters</span><br><span class="line"></span><br><span class="line">    - grant_type : `client_credentials` (string, required) - 固定值</span><br><span class="line">    - client_id : `Va5yQRHl********LT0vuXV4` (string, required) - API Key</span><br><span class="line">    - client_secret : `0rDSjzQ20XUj5i********PQSzr5pVw2` (string, required) - API Secret Key</span><br><span class="line"></span><br><span class="line">+ Response (application/json)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            &quot;access_token&quot;:&quot;1.a6b7dbd428f731035f771b8d********.86400.1292922000-2346678-124328&quot;,</span><br><span class="line">            &quot;expires_in&quot;:86400,</span><br><span class="line">            &quot;refresh_token&quot;:&quot;2.385d55f8615fdfd9edb7c4b********.604800.1293440400-2346678-124328&quot;,</span><br><span class="line">            &quot;scope&quot;:&quot;public&quot;,</span><br><span class="line">            &quot;session_key&quot;:&quot;ANXxSNjwQDugf8615Onqeik********CdlLxn&quot;,</span><br><span class="line">            &quot;session_secret&quot;:&quot;248APxvxjCZ0VEC********aK4oZExMB&quot;,</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用百度语音识别"><a href="#使用百度语音识别" class="headerlink" title="使用百度语音识别"></a>使用百度语音识别</h2><p>百度语音识别就是将声音文件转化成一段文本，通过调用百度语音提供的REST API完成。如下是一段百度语音识别的API Blueprint（上传文件方式）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">### Baidu ASR [POST http://vop.baidu.com/server_api]</span><br><span class="line"></span><br><span class="line">+ Parameters</span><br><span class="line"></span><br><span class="line">    - cuid : `d0:a6:37:ed:3d:eb` (string, required) - 用户唯一标识符</span><br><span class="line">    - token : `1.a6b7dbd428f731035f771b8d********.86400.1292922000-2346678-124328` (string, required) - 用户认证Token</span><br><span class="line">    - dev_pid : `1537` (int) - 识别码</span><br><span class="line">    - lan : `zh` (string, deprecated) - 历史兼容参数</span><br><span class="line"></span><br><span class="line">+ Request (audio/pcm;rate=16000)</span><br><span class="line"></span><br><span class="line">+ Response (application/json)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            &quot;err_no&quot;:0,</span><br><span class="line">            &quot;err_msg&quot;:&quot;success.&quot;,</span><br><span class="line">            &quot;corpus_no&quot;:&quot;15984125203285346378&quot;,</span><br><span class="line">            &quot;sn&quot;:&quot;481D633F-73BA-726F-49EF-8659ACCC2F3D&quot;,</span><br><span class="line">            &quot;result&quot;:[&quot;北京天气&quot;]</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于识别码，指定了识别的语言和方式。</p>
+<table>
+<thead>
+<tr>
+<th>dev_pid</th>
+<th>语言</th>
+<th>模型</th>
+<th>是否有标点</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1536</td>
+<td>普通话(支持简单的英文识别)</td>
+<td>搜索模型</td>
+<td>无标点</td>
+<td>支持自定义词库</td>
+</tr>
+<tr>
+<td>1537</td>
+<td>普通话(纯中文识别)</td>
+<td>输入法模型</td>
+<td>有标点</td>
+<td>不支持自定义词库</td>
+</tr>
+<tr>
+<td>1737</td>
+<td>英语</td>
+<td></td>
+<td>有标点</td>
+<td>不支持自定义词库</td>
+</tr>
+<tr>
+<td>1637</td>
+<td>粤语</td>
+<td></td>
+<td>有标点</td>
+<td>不支持自定义词库</td>
+</tr>
+<tr>
+<td>1837</td>
+<td>四川话</td>
+<td></td>
+<td>有标点</td>
+<td>不支持自定义词库</td>
+</tr>
+<tr>
+<td>1936</td>
+<td>普通话远场</td>
+<td>远场模型</td>
+<td>有标点</td>
+<td>不支持自定义词库</td>
+</tr>
+</tbody></table>
+<p>关于请求内容类型，百度语音仅支持3种音频格式：<code>pcm</code>, <code>wav</code>和<code>amr</code>，推荐采样率为16000，推荐编码为16位单声道。</p>
+<h2 id="使用百度理解与交互技术UNIT——快速上手"><a href="#使用百度理解与交互技术UNIT——快速上手" class="headerlink" title="使用百度理解与交互技术UNIT——快速上手"></a>使用百度理解与交互技术UNIT——快速上手</h2><p>UNIT（Understanding and Interaction Technology），是百度推出的一套完整的人机智能交互解决方案，理解用户语义并执行相应的操作只是其简单的一个小功能。</p>
+<p>您可以将UNIT理解成一个机器人，通过对“任务”的定义和数据的训练，使其具备理解和交互的能力。登陆百度账号后，访问<a href="http://ai.baidu.com/unit" target="_blank" rel="noopener">UNIT主页</a>进行配置。</p>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><blockquote>
+<p>一个场景对应一个独立完整的对话系统，通常按垂类划分（例如，天气场景、电视遥控器场景等）。<br>场景中包含了一系列对话单元用于完成该场景下的所有对话任务（例如，查温度、换台等）。</p>
+</blockquote>
+<p>场景可以理解为一个智能的可交互对象，新建场景是配置UNIT的第一步，本例中，我们新建一个场景叫做“智能家居控制台”</p>
+<img src="/2018/04/15/baidu-asr/20180415-145336.png" title="场景管理">
+
+<h3 id="技能"><a href="#技能" class="headerlink" title="技能"></a>技能</h3><blockquote>
+<p>场景中的某个方向的能力。 技能中包含了一系列对话单元或问答单元用于完成该场景下的所有对话任务(例如，智能电视产品包含了换台、调音量、找部电影等一系列对话单元)。 </p>
+</blockquote>
+<p>技能相当于场景所具备的能力，目前UNIT仅允许用户自定义一个技能，并添加其预置技能。预制技能也暂时仅有两种：“问候”和“电视指令”。</p>
+<img src="/2018/04/15/baidu-asr/20180415-145733.png" title="技能管理">
+
+<h3 id="对话单元"><a href="#对话单元" class="headerlink" title="对话单元"></a>对话单元</h3><blockquote>
+<p>对话单元代表着产品能够执行的某个特定任务（例如，换到中央台）。</p>
+</blockquote>
+<p>对话单元是UNIT执行任务不可再分的要素了，一个对话单元对应一个具体的任务或操作，对话单元是我们工作面对的主要对象。</p>
+<p>一个对话单元包含意图、词槽、和答复三个部分，<strong>意图</strong>实际上就是一个标识符，标识这个任务，解析意图实际上就是正确识别出一个标识符；<strong>词槽</strong>可以理解为执行这个意图必须的信息，例如“打开灯”这个意图中，打开灯的位置就是一个词槽，用户必须提供能够表示位置的词（例如“客厅”）插入词槽中，这个意图才可以被成功执行；<strong>答复</strong>就是意图执行的结果，答复可以是“直接回复”，也可以是“引导”，直接回复或回复一段文本，或执行一条函数，而引导则是开启另一个对话单元。</p>
+<p>点击自定义技能中的新建单元，即可配置一条新单元。</p>
+<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><p>所有自定义的对话单元都必须经过训练才能保证可用性和准确性，用于训练的最主要手段是样本集，即包含提问和回答的有监督数据。在数据中心中，配置默认集，</p>
+<img src="/2018/04/15/baidu-asr/20180415-151316.png" title="数据中心">
+
+<img src="/2018/04/15/baidu-asr/20180415-151357.png" title="默认集">
+
+<p>然后在训练与验证中就能训练并生效模型，一个模型是当前对话单元、训练集的一个快照，模型必须经过训练并生效到沙盒中才能供测试和API调用。</p>
+<img src="/2018/04/15/baidu-asr/20180415-151747.png" title="训练与验证">
+
+<h3 id="通用流程"><a href="#通用流程" class="headerlink" title="通用流程"></a>通用流程</h3><p>综上所述，场景是训练的基本单位，得到一个智能交互机器人的通用流程如下：</p>
+<ol>
+<li>新建一个场景。</li>
+<li>定义场景技能。</li>
+<li>编制样本集，录入数据中心。</li>
+<li>训练。</li>
+<li>生效，测试，整合进产品，上线…。</li>
+</ol>
+<h3 id="REST-API"><a href="#REST-API" class="headerlink" title="REST API"></a>REST API</h3><p>将模型应用到沙盒中去后，就可以通过REST API访问我们训练好的机器人了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">### Unit Utterance [POST https://aip.baidubce.com/rpc/2.0/solution/v1/unit_utterance]</span><br><span class="line"></span><br><span class="line">+ Parameters</span><br><span class="line"></span><br><span class="line">    - access_token : `1.a6b7dbd428f731035f771b8d********.86400.1292922000-2346678-124328` (string, required) - Token</span><br><span class="line"></span><br><span class="line">+ Request (application/json)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            &quot;scene_id&quot;:123,</span><br><span class="line">            &quot;query&quot;:&quot;今天北京天气怎么样?&quot;,</span><br><span class="line">            &quot;session_id&quot;:&quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">+ Response (application/json)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            &quot;log_id&quot;: 1234,</span><br><span class="line">            &quot;result&quot;: &#123;</span><br><span class="line">                &quot;session_id&quot;: &quot;xxx&quot;,</span><br><span class="line">                &quot;action_list&quot;: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        &quot;confidence&quot;: 205,</span><br><span class="line">                        &quot;action_id&quot;: &quot;aaa&quot;,</span><br><span class="line">                        &quot;main_exe&quot;: &quot;xxx&quot;,</span><br><span class="line">                        &quot;arg_list&quot;: [</span><br><span class="line">                            &quot;string&quot;,</span><br><span class="line">                            &quot;string&quot;</span><br><span class="line">                        ],</span><br><span class="line">                        &quot;exe_status&quot;: [],</span><br><span class="line">                        &quot;say&quot;: &quot;xxx&quot;,</span><br><span class="line">                        &quot;hint_list&quot;: [</span><br><span class="line">                            &#123;</span><br><span class="line">                                &quot;hint_query&quot;: &quot;11111&quot;</span><br><span class="line">                            &#125;,</span><br><span class="line">                            &#123;</span><br><span class="line">                                &quot;hint_query&quot;: &quot;2222222&quot;</span><br><span class="line">                            &#125;</span><br><span class="line">                        ],</span><br><span class="line">                        &quot;action_type&quot;: &#123;</span><br><span class="line">                            &quot;act_type&quot;: &quot;clarify&quot;,</span><br><span class="line">                            &quot;act_target&quot;: &quot;slot&quot;,</span><br><span class="line">                            &quot;act_target_detail&quot;: &quot;loc&quot;,</span><br><span class="line">                            &quot;act_type_detail&quot;: &quot;&quot;</span><br><span class="line">                        &#125;,</span><br><span class="line">                        &quot;code_actions&quot;: &#123;&#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                ],</span><br><span class="line">                &quot;schema&quot;: &#123;</span><br><span class="line">                    &quot;current_qu_intent&quot;: &quot;xxx&quot;,</span><br><span class="line">                    &quot;intent_confidence&quot;: 3,</span><br><span class="line">                    &quot;bot_merged_slots&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;begin&quot;: 10,</span><br><span class="line">                            &quot;length&quot;: 15,</span><br><span class="line">                            &quot;original_word&quot;: &quot;word&quot;,</span><br><span class="line">                            &quot;normalized_word&quot;: &quot;word&quot;,</span><br><span class="line">                            &quot;word_type&quot;: &quot;string&quot;,</span><br><span class="line">                            &quot;type&quot;: &quot;XXX&quot;,</span><br><span class="line">                            &quot;confidence&quot;: 2,</span><br><span class="line">                            &quot;session_offset&quot;: 0,</span><br><span class="line">                            &quot;merge_method&quot;: &quot;add&quot;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;qu_res&quot;: &#123;</span><br><span class="line">                    &quot;intent_candidates&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;extra_info&quot;: null,</span><br><span class="line">                            &quot;func_slot&quot;: &quot;&quot;,</span><br><span class="line">                            &quot;intent&quot;: &quot;SYS_WEATHER&quot;,</span><br><span class="line">                            &quot;intent_confidence&quot;: 99.999938964844,</span><br><span class="line">                            &quot;intent_need_clarify&quot;: false,</span><br><span class="line">                            &quot;from_who&quot;: &quot;&quot;,</span><br><span class="line">                            &quot;match_info&quot;: &quot;&quot;,</span><br><span class="line">                            &quot;slots&quot;: [</span><br><span class="line">                                &#123;</span><br><span class="line">                                    &quot;confidence&quot;: 99.99959564209,</span><br><span class="line">                                    &quot;length&quot;: 4,</span><br><span class="line">                                    &quot;normalized_word&quot;: &quot;2017-05-25&quot;,</span><br><span class="line">                                    &quot;offset&quot;: 0,</span><br><span class="line">                                    &quot;original_word&quot;: &quot;今天&quot;,</span><br><span class="line">                                    &quot;type&quot;: &quot;sys_time&quot;,</span><br><span class="line">                                    &quot;word_type&quot;: &quot;&quot;,</span><br><span class="line">                                    &quot;need_clarify &quot;: true</span><br><span class="line">                                &#125;</span><br><span class="line">                            ]</span><br><span class="line">                        &#125;</span><br><span class="line">                    ],</span><br><span class="line">                    &quot;lexical_analysis&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;basic_word&quot;: [</span><br><span class="line">                                &quot;中国&quot;</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;type&quot;: &quot;21&quot;,</span><br><span class="line">                            &quot;term&quot;: &quot;中国&quot;,</span><br><span class="line">                            &quot;weight&quot;: 0.1911181211471558</span><br><span class="line">                        &#125;,</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;basic_word&quot;: [</span><br><span class="line">                                &quot;北京&quot;</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;type&quot;: &quot;6&quot;,</span><br><span class="line">                            &quot;term&quot;: &quot;北京&quot;,</span><br><span class="line">                            &quot;weight&quot;: 0.3822362422943115</span><br><span class="line">                        &#125;,</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;basic_word&quot;: [</span><br><span class="line">                                &quot;人民&quot;,</span><br><span class="line">                                &quot;大学&quot;</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;type&quot;: &quot;7&quot;,</span><br><span class="line">                            &quot;term&quot;: &quot;人民大学&quot;,</span><br><span class="line">                            &quot;weight&quot;: 0.4266456961631775</span><br><span class="line">                        &#125;</span><br><span class="line">                    ],</span><br><span class="line">                    &quot;sentiment_analysis&quot;: &#123;</span><br><span class="line">                        &quot;label&quot;: 2,</span><br><span class="line">                        &quot;pval&quot;: 0.196025</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回的数据量非常大，关于这部分您可以查看<a href="https://ai.baidu.com/docs#/UNIT-API/d7081594" target="_blank" rel="noopener">百度官方技术文档</a>，在这里不做赘述。</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><h3 id="UNIT测试"><a href="#UNIT测试" class="headerlink" title="UNIT测试"></a>UNIT测试</h3><p>本例定义了一个简单的“开灯”对话单元，有一个“位置”词槽，使用3个样本数据训练了一个迷你机器人。</p>
+<p>在百度UNIT页面可与训练好的BOT进行交互：</p>
+<img src="/2018/04/15/baidu-asr/20180415-154644.png" title="打开灯">
+
+<img src="/2018/04/15/baidu-asr/20180415-154702.png" title="打开客厅灯">
+
+<p>当然，实战需要更加海量的数据。</p>
+<h3 id="语言实践"><a href="#语言实践" class="headerlink" title="语言实践"></a>语言实践</h3><p>本例使用Go语言编写了一个百度AI客户端包，目前可以做到：</p>
+<ul>
+<li>获取并管理Token；</li>
+<li>语音识别；</li>
+<li>访问UNIT机器人。</li>
+</ul>
+<p>测试代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">	<span class="string">"github.com/hinanawitenshi/baiduai"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c := baiduai.NewClient(</span><br><span class="line">		<span class="string">"myapikey"</span>,</span><br><span class="line">		<span class="string">"mysecretkey"</span>,</span><br><span class="line">	)</span><br><span class="line">	c.NewSession()</span><br><span class="line">	fmt.Println(c.Voice2Text(<span class="string">"audio.wav"</span>, <span class="string">"wav"</span>, <span class="string">"16000"</span>, <span class="number">1536</span>))</span><br><span class="line">	fmt.Println(c.Unit(<span class="number">20079</span>, <span class="string">"打开客厅灯"</span>, <span class="number">1</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&amp;&#123;0 success. 842193954671523782416 6544595644287405787 [明天天气怎么样]&#125;</span><br><span class="line">&amp;&#123;152378241880814 0  &#123;1 [&#123;turn_light_on_satisfy &#123;   &#125; [] &#123;&#125; 1 []  OK []&#125;] &#123;TURN_LIGHT_ON 99.99630737304688 [&#123;0 0 0 客厅  user_location 0 update&#125;]&#125; &#123;[] [] &#123;0 0&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/中文/" rel="tag"># 中文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/13/applying-uml/" rel="next" title="使用UML工具进行业务分析">
+                <i class="fa fa-chevron-left"></i> 使用UML工具进行业务分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/27/domain-model/" rel="prev" title="领域建模基础">
+                领域建模基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/19709067" alt="r0beRT">
+            
+              <p class="site-author-name" itemprop="name">r0beRT</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/r0bertr" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:dr.paper@live.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册百度账号"><span class="nav-number">1.1.</span> <span class="nav-text">注册百度账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#申请应用"><span class="nav-number">1.2.</span> <span class="nav-text">申请应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取Token"><span class="nav-number">1.3.</span> <span class="nav-text">获取Token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用百度语音识别"><span class="nav-number">2.</span> <span class="nav-text">使用百度语音识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用百度理解与交互技术UNIT——快速上手"><span class="nav-number">3.</span> <span class="nav-text">使用百度理解与交互技术UNIT——快速上手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">3.1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技能"><span class="nav-number">3.2.</span> <span class="nav-text">技能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对话单元"><span class="nav-number">3.3.</span> <span class="nav-text">对话单元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练"><span class="nav-number">3.4.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用流程"><span class="nav-number">3.5.</span> <span class="nav-text">通用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REST-API"><span class="nav-number">3.6.</span> <span class="nav-text">REST API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">4.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UNIT测试"><span class="nav-number">4.1.</span> <span class="nav-text">UNIT测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语言实践"><span class="nav-number">4.2.</span> <span class="nav-text">语言实践</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">r0beRT</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

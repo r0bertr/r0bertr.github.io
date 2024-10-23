@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Capacitated Facility Location Problem(CFLP)问题是一个典型的NP-Hard问题，该问题的描述如下，  给定N个设施(facility)和M位顾客(customer)，每个设施有一个最大容量s，并且可以选择开启或关闭，开启有一个开启费用f。 每位顾客有一个需求d，需要被某个或某些个设施满足，某个设施满足的需求数不得超过其最大容量s。 每个设施到每个顾客都有一">
+<meta name="keywords" content="中文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Capacitated Facility Location Problem">
+<meta property="og:url" content="http://yoursite.com/2018/12/18/cflp/index.html">
+<meta property="og:site_name" content="RASIS">
+<meta property="og:description" content="Capacitated Facility Location Problem(CFLP)问题是一个典型的NP-Hard问题，该问题的描述如下，  给定N个设施(facility)和M位顾客(customer)，每个设施有一个最大容量s，并且可以选择开启或关闭，开启有一个开启费用f。 每位顾客有一个需求d，需要被某个或某些个设施满足，某个设施满足的需求数不得超过其最大容量s。 每个设施到每个顾客都有一">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/cflp/sa.png">
+<meta property="og:updated_time" content="2024-10-23T02:57:12.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capacitated Facility Location Problem">
+<meta name="twitter:description" content="Capacitated Facility Location Problem(CFLP)问题是一个典型的NP-Hard问题，该问题的描述如下，  给定N个设施(facility)和M位顾客(customer)，每个设施有一个最大容量s，并且可以选择开启或关闭，开启有一个开启费用f。 每位顾客有一个需求d，需要被某个或某些个设施满足，某个设施满足的需求数不得超过其最大容量s。 每个设施到每个顾客都有一">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/18/cflp/sa.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/18/cflp/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Capacitated Facility Location Problem | RASIS</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165027-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117165027-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RASIS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-8-puzzle">
+    <a href="/eight-puzzle/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-puzzle-piece"></i> <br>8-Puzzle</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-xiangqi">
+    <a href="/xiangqi/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-gamepad"></i> <br>XiangQi</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/18/cflp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="r0beRT">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/19709067">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RASIS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Capacitated Facility Location Problem
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-18 13:12:40" itemprop="dateCreated datePublished" datetime="2018-12-18T13:12:40+09:00">2018-12-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-23 11:57:12" itemprop="dateModified" datetime="2024-10-23T11:57:12+09:00">2024-10-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Capacitated Facility Location Problem(CFLP)问题是一个典型的NP-Hard问题，该问题的描述如下，</p>
+<ul>
+<li>给定<code>N</code>个设施(facility)和<code>M</code>位顾客(customer)，每个设施有一个最大容量<code>s</code>，并且可以选择开启或关闭，开启有一个开启费用<code>f</code>。</li>
+<li>每位顾客有一个需求<code>d</code>，需要被某个或某些个设施满足，某个设施满足的需求数不得超过其最大容量<code>s</code>。</li>
+<li>每个设施到每个顾客都有一个满足费用<code>c</code>，即满足某个顾客单位需求的费用。</li>
+<li>最小化满足所有顾客所有需求的总费用。</li>
+</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>引入如下的数学符号，</p>
+<ul>
+<li>$N$表示设施数，$M$表示顾客数。</li>
+<li>$s_i, \forall i = 0,…,N-1$表示设施$i$的最大容量。</li>
+<li>$f_i, \forall i = 0,…,N-1$表示设施$i$的开启费用。</li>
+<li>$d_i, \forall i = 0,…,M-1$表示顾客$i$的需求。</li>
+<li>$c_{ij}, \forall i = 0,…,N-1, j = 0,…,M-1$表示设施$i$满足顾客$j$<strong>单位</strong>需求所需费用。</li>
+<li>注：一般而言，用$c_{ij}$表示的是满足顾客所有需求所需费用，这里为避免引入除法和分数采用<strong>单位</strong>需求。</li>
+</ul>
+<p>并将CFLP的解表示为，</p>
+<ul>
+<li>$x_i, \forall i = 0,…,N-1, x_i \in \{0,1\}$表示设施$i$的开启状况，1表示开启，0表示关闭。</li>
+<li>$y_{ij}, \forall i = 0,…,N-1, j=0,…,M-1$表示设施$i$满足顾客$j$的需求数。</li>
+</ul>
+<p>那么CFLP可以表示为如下的最优化问题，</p>
+<p>$$<br>min \sum_{i=0}^{N-1}\sum_{j=0}^{M-1}c_{ij}y_{ij} + \sum_{i=0}^{N-1}f_ix_i \quad s.t. \\<br>\begin{align}<br>y_{ij} \ge 0 &amp; \quad  \forall i=0,…,N-1, j=0,…,M-1 \\<br>\sum_{j=0}^{M-1}y_{ij} \le s_ix_i &amp; \quad \forall i=0,…,N-1 \\<br>\sum_{i=0}^{N-1}y_{ij} = d_j &amp; \quad \forall j=0,…,M-1 \\<br>x_i \in \{0,1\} &amp; \quad \forall i=0,…,N-1<br>\end{align}<br>$$</p>
+<p>CFLP的条件比较多，但您可以将解过程分为两个部分，</p>
+<ul>
+<li>开启一些设施（求解$x$）。</li>
+<li>决定每个顾客在每个设施中满足需求的数量（将用户需求赋值给设施，求解$y$）。</li>
+</ul>
+<p>其中，开启设施共有$2^N$种可能性，也是使得这个问题无法在多项式时间内求解的关键因素。当开启的设施已经被选定时，可以采用如下的贪心策略对设施赋值，</p>
+<ol>
+<li>在已开启且还有容量剩余的设施和还未被满足需求的顾客中选择费用最低的设施-顾客对，尽可能地满足该顾客，直到所有顾客都被满足。</li>
+<li>若该顾客已满足，则将顾客移出考虑范围；若该顾客未被满足，则设施已达到最大容量，将该设施移出考虑范围；特别的，恰好满足时，同时移除设施和顾客；此时如果还有顾客未被满足，则返回1，否则结束过程。</li>
+</ol>
+<p>因此，考虑的重点在于选择哪些设施进行开启，下面将着重阐述若干个策略。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p><a href="https://github.com/hinanawitenshi/CFLP" target="_blank" rel="noopener">Github Repo</a></p>
+<ul>
+<li>实现框架：Golang+Cobra命令行程序</li>
+</ul>
+<h3 id="问题的表示"><a href="#问题的表示" class="headerlink" title="问题的表示"></a>问题的表示</h3><p>问题包含$N,M,s,f,d,c$五个变量，其中$N,M$用两个整数表示，$s,f$分别用一个长度为$N$的一维数组表示，$d$用一个长度为$M$的一维数组表示，$c$采用一个$N \times M$的二维数组表示，结构如下，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Problem contains data of a CFLP.</span></span><br><span class="line"><span class="keyword">type</span> Problem <span class="keyword">struct</span> &#123;</span><br><span class="line">    N, M        <span class="keyword">int</span></span><br><span class="line">    Capacities  []<span class="keyword">int</span></span><br><span class="line">    FixedCosts  []<span class="keyword">int</span></span><br><span class="line">    Demands     []<span class="keyword">int</span></span><br><span class="line">    TotalDemand <span class="keyword">int</span></span><br><span class="line">    Costs       [][]<span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：为了计算方便，在读取数据的时候计算了总需求并储存在变量<code>TotalDemand</code>中。</p>
+<p>易得，读取数据的时间复杂度为$O(NM)$，空间复杂度为$O(NM)$。</p>
+<h2 id="解的表示"><a href="#解的表示" class="headerlink" title="解的表示"></a>解的表示</h2><p>一个解包含设施的开启信息$x$和用户需求的赋值信息$y$，分别使用一个长度为$N$的一维数组和一个$N \times M$的二维数组表示，结构如下，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Solution represents a solution of a CFLP.</span></span><br><span class="line"><span class="keyword">type</span> Solution <span class="keyword">struct</span> &#123;</span><br><span class="line">    *Problem</span><br><span class="line">    X       []<span class="keyword">bool</span></span><br><span class="line">    Y       [][]<span class="keyword">int</span></span><br><span class="line">    RunTime <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：添加了<code>RunTime</code>记录运行时间。</p>
+<p>当<code>X</code>确定时，采用上面提到的贪心策略进行需求赋值的代码过程如下，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign assigns demands to facility based on current opened facilities.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Solution)</span> <span class="title">Assign</span><span class="params">()</span></span> &#123;</span><br><span class="line">    totalDemand := s.TotalDemand</span><br><span class="line">    filled := <span class="built_in">make</span>([]<span class="keyword">int</span>, s.N)</span><br><span class="line">    demands := <span class="built_in">make</span>([]<span class="keyword">int</span>, s.M)</span><br><span class="line">    <span class="keyword">for</span> j := <span class="keyword">range</span> s.Demands &#123;</span><br><span class="line">        demands[j] = s.Demands[j]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> s.Y &#123;</span><br><span class="line">        <span class="keyword">for</span> j := <span class="keyword">range</span> s.Y[i] &#123;</span><br><span class="line">            s.Y[i][j] = <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> totalDemand &gt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="comment">// find the cheapest cost</span></span><br><span class="line">        minI := <span class="number">0</span></span><br><span class="line">        minJ := <span class="number">0</span></span><br><span class="line">        minCost := math.MaxInt32</span><br><span class="line">        <span class="keyword">for</span> i := <span class="keyword">range</span> s.Costs &#123;</span><br><span class="line">            <span class="keyword">if</span> !s.X[i] || filled[i] == s.Capacities[i] &#123;</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> j := <span class="keyword">range</span> s.Costs[i] &#123;</span><br><span class="line">                <span class="keyword">if</span> s.Costs[i][j] &lt; minCost &amp;&amp; demands[j] &gt; <span class="number">0</span> &#123;</span><br><span class="line">                    minI = i</span><br><span class="line">                    minJ = j</span><br><span class="line">                    minCost = s.Costs[i][j]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// assign</span></span><br><span class="line">        <span class="keyword">var</span> fill <span class="keyword">int</span></span><br><span class="line">        <span class="keyword">if</span> s.Capacities[minI]-filled[minI] &lt;= demands[minJ] &#123;</span><br><span class="line">            <span class="comment">// the facility will be full</span></span><br><span class="line">            fill = s.Capacities[minI] - filled[minI]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// the facility has more capacity then the demand</span></span><br><span class="line">            fill = demands[minJ]</span><br><span class="line">        &#125;</span><br><span class="line">        demands[minJ] -= fill</span><br><span class="line">        totalDemand -= fill</span><br><span class="line">        s.Y[minI][minJ] += fill</span><br><span class="line">        filled[minI] += fill</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见，该过程须要临时保留每个设施被占用的容量以及每个顾客剩余的需求，因此空间复杂度为$O(N+M)$。</p>
+<p>时间上，每次循环内需要便利所有符合条件的设施-用户对的费用，循环内时间复杂度为$O(NM)$，而每次循环过后必定有一个用户得到满足或者某个设施占用容量达到最大，所以循环次数不会超过设施数和用户数的总和，因此整个过程的时间复杂度为$O(NM(N+M))$。</p>
+<h2 id="Greedy-贪心策略"><a href="#Greedy-贪心策略" class="headerlink" title="Greedy 贪心策略"></a>Greedy 贪心策略</h2><p>在选择设施上进行贪心策略显然不是最优的，但贪心策略的优点在于运行速度快，能够很快地得到一个参考结果，用于对比其他算法的解。</p>
+<p>贪心策略非常简单，</p>
+<ol>
+<li>选择设施中未开启的开启费用最少的设施，开启它。</li>
+<li>若开启的设施的总容量小于顾客的总需求，回到1，否则结束。</li>
+</ol>
+<p>运行代码片段如下，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Solver)</span> <span class="title">solveByGreedy</span><span class="params">()</span> *<span class="title">Solution</span></span> &#123;</span><br><span class="line">    <span class="comment">// initialize a solution</span></span><br><span class="line">    sol := s.initSolution()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// find the cheapest facility and turn it on</span></span><br><span class="line">    minFPos := <span class="number">0</span></span><br><span class="line">    minF := math.MaxInt32</span><br><span class="line">    <span class="keyword">for</span> i, f := <span class="keyword">range</span> s.p.FixedCosts &#123;</span><br><span class="line">        <span class="keyword">if</span> f &lt; minF &#123;</span><br><span class="line">            minFPos = i</span><br><span class="line">            minF = f</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Open the facility</span></span><br><span class="line">    sol.Open(minFPos)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// open from cheaper until all demands can be satisfied</span></span><br><span class="line">    <span class="keyword">for</span> !sol.Valid() &#123;</span><br><span class="line">        minFPos = <span class="number">0</span></span><br><span class="line">        minF = math.MaxInt32</span><br><span class="line">        <span class="keyword">for</span> i, f := <span class="keyword">range</span> s.p.FixedCosts &#123;</span><br><span class="line">            <span class="keyword">if</span> f &lt; minF &amp;&amp; !sol.X[i] &#123;</span><br><span class="line">                minFPos = i</span><br><span class="line">                minF = f</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        sol.Open(minFPos)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// assign the demands</span></span><br><span class="line">    sol.Assign()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sol</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>整个算法的流程如下，</p>
+<ol>
+<li>初始化解（$O(MN)$）。</li>
+<li>寻找未开启设施中开启费用最低的设施（$O(N)$）。</li>
+<li>若开启的设施无法满足所用顾客的需要，返回2。(最多返回$N$次)</li>
+<li>需求赋值（$O(MN(M+N))$）。</li>
+</ol>
+<p>因此，贪心策略的时间复杂度为$O(N^2 + MN(M+N))$。</p>
+<p>由于整个过程仅需要保持一个解，空间复杂度为$O(MN)$。</p>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><p>在71个问题的问题集上的实验结果如下，</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Result</th>
+<th>Time(s)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="results/greedy/p1">p1</a></td>
+<td>12989.953</td>
+<td>0.00004</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p2">p2</a></td>
+<td>9288.850</td>
+<td>0.00007</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p3">p3</a></td>
+<td>10488.850</td>
+<td>0.00008</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p4">p4</a></td>
+<td>11688.850</td>
+<td>0.00036</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p5">p5</a></td>
+<td>10902.060</td>
+<td>0.00008</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p6">p6</a></td>
+<td>9832.666</td>
+<td>0.00007</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p7">p7</a></td>
+<td>11432.666</td>
+<td>0.00006</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p8">p8</a></td>
+<td>13032.666</td>
+<td>0.00016</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p9">p9</a></td>
+<td>10980.250</td>
+<td>0.00010</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p10">p10</a></td>
+<td>10458.043</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p11">p11</a></td>
+<td>11458.043</td>
+<td>0.00006</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p12">p12</a></td>
+<td>12458.043</td>
+<td>0.00004</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p13">p13</a></td>
+<td>11015.048</td>
+<td>0.00028</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p14">p14</a></td>
+<td>8514.791</td>
+<td>0.00006</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p15">p15</a></td>
+<td>10114.791</td>
+<td>0.00012</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p16">p16</a></td>
+<td>11714.791</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p17">p17</a></td>
+<td>10295.318</td>
+<td>0.00006</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p18">p18</a></td>
+<td>8543.171</td>
+<td>0.00007</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p19">p19</a></td>
+<td>10143.171</td>
+<td>0.00013</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p20">p20</a></td>
+<td>11743.171</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p21">p21</a></td>
+<td>12235.528</td>
+<td>0.00022</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p22">p22</a></td>
+<td>11363.414</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p23">p23</a></td>
+<td>12563.414</td>
+<td>0.00005</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p24">p24</a></td>
+<td>13763.414</td>
+<td>0.00008</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p25">p25</a></td>
+<td>78338.667</td>
+<td>0.00039</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p26">p26</a></td>
+<td>63710.947</td>
+<td>0.00032</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p27">p27</a></td>
+<td>65310.947</td>
+<td>0.00032</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p28">p28</a></td>
+<td>66910.947</td>
+<td>0.00034</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p29">p29</a></td>
+<td>65258.221</td>
+<td>0.00040</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p30">p30</a></td>
+<td>54927.860</td>
+<td>0.00038</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p31">p31</a></td>
+<td>56927.860</td>
+<td>0.00043</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p32">p32</a></td>
+<td>58927.860</td>
+<td>0.00145</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p33">p33</a></td>
+<td>77701.857</td>
+<td>0.00035</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p34">p34</a></td>
+<td>53887.154</td>
+<td>0.00033</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p35">p35</a></td>
+<td>55487.154</td>
+<td>0.00035</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p36">p36</a></td>
+<td>57087.154</td>
+<td>0.00065</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p37">p37</a></td>
+<td>101999.196</td>
+<td>0.00024</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p38">p38</a></td>
+<td>73636.480</td>
+<td>0.00020</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p39">p39</a></td>
+<td>74636.480</td>
+<td>0.00022</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p40">p40</a></td>
+<td>75636.480</td>
+<td>0.00020</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p41">p41</a></td>
+<td>7276.556</td>
+<td>0.00021</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p42">p42</a></td>
+<td>8068.351</td>
+<td>0.00010</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p43">p43</a></td>
+<td>6383.929</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p44">p44</a></td>
+<td>7995.223</td>
+<td>0.00021</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p45">p45</a></td>
+<td>8089.250</td>
+<td>0.00013</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p46">p46</a></td>
+<td>6915.251</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p47">p47</a></td>
+<td>7705.325</td>
+<td>0.00015</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p48">p48</a></td>
+<td>7874.275</td>
+<td>0.00019</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p49">p49</a></td>
+<td>6960.522</td>
+<td>0.00009</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p50">p50</a></td>
+<td>12441.358</td>
+<td>0.00025</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p51">p51</a></td>
+<td>9382.546</td>
+<td>0.00034</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p52">p52</a></td>
+<td>13378.456</td>
+<td>0.00016</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p53">p53</a></td>
+<td>12650.089</td>
+<td>0.00019</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p54">p54</a></td>
+<td>10536.867</td>
+<td>0.00016</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p55">p55</a></td>
+<td>12258.408</td>
+<td>0.00019</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p56">p56</a></td>
+<td>32522.303</td>
+<td>0.00113</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p57">p57</a></td>
+<td>37322.303</td>
+<td>0.00119</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p58">p58</a></td>
+<td>48522.303</td>
+<td>0.00209</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p59">p59</a></td>
+<td>30606.927</td>
+<td>0.00110</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p60">p60</a></td>
+<td>37243.427</td>
+<td>0.00082</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p61">p61</a></td>
+<td>40543.427</td>
+<td>0.00142</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p62">p62</a></td>
+<td>48243.427</td>
+<td>0.00082</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p63">p63</a></td>
+<td>31843.780</td>
+<td>0.00091</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p64">p64</a></td>
+<td>34081.806</td>
+<td>0.00061</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p65">p65</a></td>
+<td>36481.806</td>
+<td>0.00061</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p66">p66</a></td>
+<td>42081.806</td>
+<td>0.00063</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p67">p67</a></td>
+<td>32210.447</td>
+<td>0.00096</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p68">p68</a></td>
+<td>38955.963</td>
+<td>0.00073</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p69">p69</a></td>
+<td>41955.963</td>
+<td>0.00071</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p70">p70</a></td>
+<td>48955.963</td>
+<td>0.00128</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p71">p71</a></td>
+<td>31843.976</td>
+<td>0.00096</td>
+</tr>
+</tbody></table>
+<h2 id="Brute-Force-暴力求解"><a href="#Brute-Force-暴力求解" class="headerlink" title="Brute Force 暴力求解"></a>Brute Force 暴力求解</h2><p>在$N$比较小时，可以使用暴力求解的方式，即枚举所有设施开启和关闭的可能性（共$2^N$种可能）。暴力求解的时间复杂度为$O(2^N)$，因此当$N$比较大时，这种方法是不适用的，但是暴力求解可以在不清楚最优解的情况下找到一个理论上的最优解，用于比较分析其他求解算法。</p>
+<p>暴力求解的代码过程如下，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Solver)</span> <span class="title">solveByBruteForce</span><span class="params">()</span> *<span class="title">Solution</span></span> &#123;</span><br><span class="line">    <span class="comment">// initialize a solution</span></span><br><span class="line">    <span class="keyword">var</span> bestSol *Solution</span><br><span class="line">    bestCost := math.MaxFloat64</span><br><span class="line"></span><br><span class="line">    <span class="comment">// enumerate all situations</span></span><br><span class="line">    total := <span class="number">1</span> &lt;&lt; <span class="keyword">uint</span>(s.p.N)</span><br><span class="line">    <span class="keyword">for</span> c := <span class="number">0</span>; c &lt; total; c++ &#123;</span><br><span class="line">        <span class="comment">// output intermidiate results</span></span><br><span class="line">        <span class="keyword">if</span> c%<span class="number">2000</span> == <span class="number">0</span> &#123;</span><br><span class="line">            log.Printf(<span class="string">"evaluating %s(%d/%d) best=%.3f\n"</span>,</span><br><span class="line">                strconv.FormatInt(<span class="keyword">int64</span>(c), <span class="number">2</span>), c, total, bestCost)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// initialize a solution</span></span><br><span class="line">        sol := s.initSolution()</span><br><span class="line">        <span class="comment">// open the facilities</span></span><br><span class="line">        <span class="keyword">for</span> i := <span class="keyword">range</span> sol.X &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="number">1</span>&lt;&lt;<span class="keyword">uint</span>(i)&amp;c &gt; <span class="number">0</span> &#123;</span><br><span class="line">                sol.Open(i)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// if the solution cannot satisfy all customers, skip</span></span><br><span class="line">        <span class="keyword">if</span> !sol.Valid() &#123;</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// assign and compute the cost</span></span><br><span class="line">        sol.Assign()</span><br><span class="line">        cost := sol.Cost()</span><br><span class="line">        <span class="keyword">if</span> cost &lt; bestCost &#123;</span><br><span class="line">            bestCost = cost</span><br><span class="line">            bestSol = sol</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bestSol</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过程中，通过一个整数$c, 0 \le c &lt; 2^N$来表示$N$个设施的唯一一种开关状态，以其二进制数中的1表示开启，0表示关闭，因此遍历<code>c</code>即可遍历所有情况。</p>
+<p>时间复杂度：$O(2^N)$<br>空间复杂度：$O(MN)$</p>
+<p>实际实验过程中，当$N &gt; 20$时运行时间已经不可接受，应当使用其它的一些算法。</p>
+<h3 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Result</th>
+<th>Time(s)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="resutls/brute-force/p1">p1</a></td>
+<td>8899.287</td>
+<td>0.01975</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p2">p2</a></td>
+<td>7943.402</td>
+<td>0.01708</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p3">p3</a></td>
+<td>9543.402</td>
+<td>0.01890</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p4">p4</a></td>
+<td>10947.538</td>
+<td>0.01488</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p5">p5</a></td>
+<td>8928.489</td>
+<td>0.00602</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p6">p6</a></td>
+<td>7729.489</td>
+<td>0.00627</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p7">p7</a></td>
+<td>9529.489</td>
+<td>0.00606</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p8">p8</a></td>
+<td>11259.081</td>
+<td>0.00579</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p9">p9</a></td>
+<td>8460.030</td>
+<td>0.03576</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p10">p10</a></td>
+<td>7617.000</td>
+<td>0.03523</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p11">p11</a></td>
+<td>9103.286</td>
+<td>0.03549</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p12">p12</a></td>
+<td>10363.911</td>
+<td>0.03088</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p13">p13</a></td>
+<td>8245.910</td>
+<td>63.38475</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p14">p14</a></td>
+<td>7125.641</td>
+<td>63.63613</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p15">p15</a></td>
+<td>8856.372</td>
+<td>62.66329</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p16">p16</a></td>
+<td>10456.372</td>
+<td>61.17692</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p17">p17</a></td>
+<td>8195.925</td>
+<td>60.36199</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p18">p18</a></td>
+<td>7100.582</td>
+<td>69.37253</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p19">p19</a></td>
+<td>8803.787</td>
+<td>66.69740</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p20">p20</a></td>
+<td>10403.787</td>
+<td>60.53454</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p21">p21</a></td>
+<td>8054.758</td>
+<td>64.53812</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p22">p22</a></td>
+<td>7092.000</td>
+<td>64.51618</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p23">p23</a></td>
+<td>8740.758</td>
+<td>64.48915</td>
+</tr>
+<tr>
+<td><a href="resutls/brute-force/p24">p24</a></td>
+<td>10267.971</td>
+<td>64.60072</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>-</td>
+<td>$\infty$</td>
+</tr>
+<tr>
+<td>…</td>
+<td>-</td>
+<td>$\infty$</td>
+</tr>
+<tr>
+<td>p71</td>
+<td>-</td>
+<td>$\infty$</td>
+</tr>
+</tbody></table>
+<h2 id="Simulated-Annealing-模拟退火"><a href="#Simulated-Annealing-模拟退火" class="headerlink" title="Simulated Annealing 模拟退火"></a>Simulated Annealing 模拟退火</h2><p><a href="https://en.wikipedia.org/wiki/Simulated_annealing" target="_blank" rel="noopener">模拟退火算法</a>是一种优秀的局部搜索算法，它在做邻域搜索的同时，概率接受差解以跳出局部最小值。在CFLP中，将设施的一组开关组合视为一个状态，使用模拟退火算法的基本流程如下，</p>
+<img src="/2018/12/18/cflp/sa.png">
+
+<p>其中，内外层循环终止条件一般设定为经过一定数目的迭代次数后终止。</p>
+<h3 id="参数设定"><a href="#参数设定" class="headerlink" title="参数设定"></a>参数设定</h3><ul>
+<li>初始温度<code>T=100</code></li>
+<li>内层循环数为<code>1000</code></li>
+<li>外层循环数为<code>1000</code></li>
+<li>温度下降方式为<code>T *= 0.99</code></li>
+</ul>
+<h3 id="初始解的生成"><a href="#初始解的生成" class="headerlink" title="初始解的生成"></a>初始解的生成</h3><p>初始全局解应当随机生成，即每个设施按均匀分布决定开或者不开。</p>
+<h3 id="邻域搜索"><a href="#邻域搜索" class="headerlink" title="邻域搜索"></a>邻域搜索</h3><p>领域搜索即根据当前解生成下一个解，实验过程中发现模拟退火算法里使用多种邻域搜索方式共同作用比单种邻域搜索方式效果要好很多，实验中使用到的备选邻域操作有，</p>
+<ol>
+<li>随机开启/关闭某个设施。</li>
+<li>随机开启/关闭一段连续的设施。</li>
+<li>将某一段连续的设施的开关状态倒置。</li>
+</ol>
+<p>当需要生成新状态时，从上述三种方法中随机选择一种。</p>
+<h3 id="Metropolis-准则"><a href="#Metropolis-准则" class="headerlink" title="Metropolis 准则"></a>Metropolis 准则</h3><p>Metropolis准则是模拟退火算法的核心所在，当这个准则满足时，接受生成的解并替换掉全局解。具体而言，Metropolis准则为</p>
+<p>$$<br>\min\{1, e^{-\frac{C’-C}{T}}\} &lt; R<br>$$</p>
+<p>其中，$C’$为生成的解的费用，$C$为全局解的费用，$T$为温度，$R$为$[0,1]$之间的随机数。</p>
+<p>可见，当遇到好解时，$e^{-\frac{C’-C}{T}} &gt; 1$，必定会接收，但当遇到差解时，当温度高时，$e^{-\frac{C’-C}{T}}$比温度低时更加接近1，有概率接收此差解，且随着温度降低，接收差解的概率也降低，最终收敛到一个最优解。</p>
+<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>模拟退火算法的代码过程如下，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Solver)</span> <span class="title">solveBySA</span><span class="params">()</span> *<span class="title">Solution</span></span> &#123;</span><br><span class="line">    <span class="comment">// parameters</span></span><br><span class="line">    bestSol := s.initSolution()</span><br><span class="line">    bestSol.Shuffle()</span><br><span class="line">    <span class="keyword">for</span> !bestSol.Valid() &#123;</span><br><span class="line">        bestSol.Shuffle()</span><br><span class="line">    &#125;</span><br><span class="line">    bestSol.Assign()</span><br><span class="line">    bestCost := bestSol.Cost()</span><br><span class="line">    nExtIter := <span class="number">1000</span></span><br><span class="line">    nInnIter := <span class="number">1000</span></span><br><span class="line">    T := <span class="number">100.0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// searching</span></span><br><span class="line">    <span class="keyword">for</span> ext := <span class="number">0</span>; ext &lt; nExtIter; ext++ &#123;</span><br><span class="line">        <span class="keyword">for</span> inn := <span class="number">0</span>; inn &lt; nInnIter; inn++ &#123;</span><br><span class="line">            sol := CopySolution(bestSol)</span><br><span class="line">            sol.RandomAreaOperate()</span><br><span class="line">            <span class="keyword">for</span> !sol.Valid() &#123;</span><br><span class="line">                sol.RandomAreaOperate()</span><br><span class="line">            &#125;</span><br><span class="line">            sol.Assign()</span><br><span class="line">            costNext := sol.Cost()</span><br><span class="line">            <span class="keyword">if</span> math.Min(<span class="number">1</span>, math.Exp(bestCost-costNext)/T) &gt;= rand.Float64() &#123;</span><br><span class="line">                bestSol = sol</span><br><span class="line">                bestCost = costNext</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        log.Printf(<span class="string">"ExtIter=%d(%d) T=%.3f bestCost=%.3f\n"</span>, ext, nExtIter,</span><br><span class="line">            T, bestCost)</span><br><span class="line">        T *= <span class="number">0.99</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bestSol</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中在内层循环，复制解的复杂度为$O(MN)$，随机邻域操作的平均复杂度为$O(N)$，其余均为常数时间，因此整体算法的时间复杂度为$O(EIMN)$，其中$E$为外层循环数，$I$为内层循环数。</p>
+<p>由于整个过程只需保持一个解，空间复杂度为$O(MN)$。</p>
+<h3 id="实验结果-2"><a href="#实验结果-2" class="headerlink" title="实验结果"></a>实验结果</h3><p>在71个问题的问题集上的实验结果如下，</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Result</th>
+<th>Time(s)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="results/sa/p1">p1</a></td>
+<td>8899.287</td>
+<td>49.67533</td>
+</tr>
+<tr>
+<td><a href="results/sa/p2">p2</a></td>
+<td>7943.402</td>
+<td>46.02201</td>
+</tr>
+<tr>
+<td><a href="results/sa/p3">p3</a></td>
+<td>9549.287</td>
+<td>43.71652</td>
+</tr>
+<tr>
+<td><a href="results/sa/p4">p4</a></td>
+<td>10947.538</td>
+<td>41.95468</td>
+</tr>
+<tr>
+<td><a href="results/sa/p5">p5</a></td>
+<td>8928.489</td>
+<td>49.61210</td>
+</tr>
+<tr>
+<td><a href="results/sa/p6">p6</a></td>
+<td>7729.489</td>
+<td>49.43371</td>
+</tr>
+<tr>
+<td><a href="results/sa/p7">p7</a></td>
+<td>9529.489</td>
+<td>49.90450</td>
+</tr>
+<tr>
+<td><a href="results/sa/p8">p8</a></td>
+<td>11259.650</td>
+<td>49.82498</td>
+</tr>
+<tr>
+<td><a href="results/sa/p9">p9</a></td>
+<td>8460.030</td>
+<td>38.91396</td>
+</tr>
+<tr>
+<td><a href="results/sa/p10">p10</a></td>
+<td>7617.000</td>
+<td>41.85766</td>
+</tr>
+<tr>
+<td><a href="results/sa/p11">p11</a></td>
+<td>9103.286</td>
+<td>39.19025</td>
+</tr>
+<tr>
+<td><a href="results/sa/p12">p12</a></td>
+<td>10363.911</td>
+<td>39.63912</td>
+</tr>
+<tr>
+<td><a href="results/sa/p13">p13</a></td>
+<td>8245.910</td>
+<td>62.59881</td>
+</tr>
+<tr>
+<td><a href="results/sa/p14">p14</a></td>
+<td>7125.641</td>
+<td>63.83618</td>
+</tr>
+<tr>
+<td><a href="results/sa/p15">p15</a></td>
+<td>8856.372</td>
+<td>56.31368</td>
+</tr>
+<tr>
+<td><a href="results/sa/p16">p16</a></td>
+<td>10456.372</td>
+<td>55.16921</td>
+</tr>
+<tr>
+<td><a href="results/sa/p17">p17</a></td>
+<td>8195.925</td>
+<td>62.16191</td>
+</tr>
+<tr>
+<td><a href="results/sa/p18">p18</a></td>
+<td>7129.274</td>
+<td>74.85285</td>
+</tr>
+<tr>
+<td><a href="results/sa/p19">p19</a></td>
+<td>8803.787</td>
+<td>59.92987</td>
+</tr>
+<tr>
+<td><a href="results/sa/p20">p20</a></td>
+<td>10403.787</td>
+<td>59.71305</td>
+</tr>
+<tr>
+<td><a href="results/sa/p21">p21</a></td>
+<td>8139.000</td>
+<td>56.84904</td>
+</tr>
+<tr>
+<td><a href="results/sa/p22">p22</a></td>
+<td>7124.000</td>
+<td>59.69487</td>
+</tr>
+<tr>
+<td><a href="results/sa/p23">p23</a></td>
+<td>8780.306</td>
+<td>54.46691</td>
+</tr>
+<tr>
+<td><a href="results/sa/p24">p24</a></td>
+<td>10298.306</td>
+<td>50.47274</td>
+</tr>
+<tr>
+<td><a href="results/sa/p25">p25</a></td>
+<td>12233.713</td>
+<td>546.33127</td>
+</tr>
+<tr>
+<td><a href="results/sa/p26">p26</a></td>
+<td>11152.713</td>
+<td>540.89889</td>
+</tr>
+<tr>
+<td><a href="results/sa/p27">p27</a></td>
+<td>13117.713</td>
+<td>548.15456</td>
+</tr>
+<tr>
+<td><a href="results/sa/p28">p28</a></td>
+<td>15183.478</td>
+<td>608.56645</td>
+</tr>
+<tr>
+<td><a href="results/sa/p29">p29</a></td>
+<td>13831.838</td>
+<td>3797.52276</td>
+</tr>
+<tr>
+<td><a href="results/sa/p30">p30</a></td>
+<td>12366.202</td>
+<td>666.75613</td>
+</tr>
+<tr>
+<td><a href="results/sa/p31">p31</a></td>
+<td>14535.702</td>
+<td>642.78949</td>
+</tr>
+<tr>
+<td><a href="results/sa/p32">p32</a></td>
+<td>17277.047</td>
+<td>629.18618</td>
+</tr>
+<tr>
+<td><a href="results/sa/p33">p33</a></td>
+<td>12174.419</td>
+<td>531.56347</td>
+</tr>
+<tr>
+<td><a href="results/sa/p34">p34</a></td>
+<td>11212.667</td>
+<td>585.61782</td>
+</tr>
+<tr>
+<td><a href="results/sa/p35">p35</a></td>
+<td>13843.667</td>
+<td>565.90143</td>
+</tr>
+<tr>
+<td><a href="results/sa/p36">p36</a></td>
+<td>14570.419</td>
+<td>500.77183</td>
+</tr>
+<tr>
+<td><a href="results/sa/p37">p37</a></td>
+<td>11424.636</td>
+<td>427.68900</td>
+</tr>
+<tr>
+<td><a href="results/sa/p38">p38</a></td>
+<td>10594.000</td>
+<td>512.98266</td>
+</tr>
+<tr>
+<td><a href="results/sa/p39">p39</a></td>
+<td>11976.636</td>
+<td>429.34593</td>
+</tr>
+<tr>
+<td><a href="results/sa/p40">p40</a></td>
+<td>13176.636</td>
+<td>428.54124</td>
+</tr>
+<tr>
+<td><a href="results/sa/p41">p41</a></td>
+<td>6755.391</td>
+<td>100.04381</td>
+</tr>
+<tr>
+<td><a href="results/sa/p42">p42</a></td>
+<td>5680.069</td>
+<td>93.40380</td>
+</tr>
+<tr>
+<td><a href="results/sa/p43">p43</a></td>
+<td>5401.000</td>
+<td>80.17776</td>
+</tr>
+<tr>
+<td><a href="results/sa/p44">p44</a></td>
+<td>7162.573</td>
+<td>113.07130</td>
+</tr>
+<tr>
+<td><a href="results/sa/p45">p45</a></td>
+<td>6244.500</td>
+<td>104.98954</td>
+</tr>
+<tr>
+<td><a href="results/sa/p46">p46</a></td>
+<td>5994.292</td>
+<td>95.73207</td>
+</tr>
+<tr>
+<td><a href="results/sa/p47">p47</a></td>
+<td>6424.425</td>
+<td>127.02732</td>
+</tr>
+<tr>
+<td><a href="results/sa/p48">p48</a></td>
+<td>5594.600</td>
+<td>125.31068</td>
+</tr>
+<tr>
+<td><a href="results/sa/p49">p49</a></td>
+<td>5304.300</td>
+<td>98.86595</td>
+</tr>
+<tr>
+<td><a href="results/sa/p50">p50</a></td>
+<td>9258.967</td>
+<td>139.52326</td>
+</tr>
+<tr>
+<td><a href="results/sa/p51">p51</a></td>
+<td>7748.878</td>
+<td>198.40947</td>
+</tr>
+<tr>
+<td><a href="results/sa/p52">p52</a></td>
+<td>9862.039</td>
+<td>167.22943</td>
+</tr>
+<tr>
+<td><a href="results/sa/p53">p53</a></td>
+<td>8969.800</td>
+<td>165.41922</td>
+</tr>
+<tr>
+<td><a href="results/sa/p54">p54</a></td>
+<td>9331.120</td>
+<td>136.80022</td>
+</tr>
+<tr>
+<td><a href="results/sa/p55">p55</a></td>
+<td>7789.517</td>
+<td>157.08357</td>
+</tr>
+<tr>
+<td><a href="results/sa/p56">p56</a></td>
+<td>21422.086</td>
+<td>1343.04327</td>
+</tr>
+<tr>
+<td><a href="results/sa/p57">p57</a></td>
+<td>26388.956</td>
+<td>1220.42790</td>
+</tr>
+<tr>
+<td><a href="results/sa/p58">p58</a></td>
+<td>37722.381</td>
+<td>1176.16916</td>
+</tr>
+<tr>
+<td><a href="results/sa/p59">p59</a></td>
+<td>27645.265</td>
+<td>1169.97743</td>
+</tr>
+<tr>
+<td><a href="results/sa/p60">p60</a></td>
+<td>20923.000</td>
+<td>1212.31783</td>
+</tr>
+<tr>
+<td><a href="results/sa/p61">p61</a></td>
+<td>25621.657</td>
+<td>1052.55700</td>
+</tr>
+<tr>
+<td><a href="results/sa/p62">p62</a></td>
+<td>33197.623</td>
+<td>957.01278</td>
+</tr>
+<tr>
+<td><a href="results/sa/p63">p63</a></td>
+<td>25287.956</td>
+<td>975.96980</td>
+</tr>
+<tr>
+<td><a href="results/sa/p64">p64</a></td>
+<td>20834.000</td>
+<td>1602.66377</td>
+</tr>
+<tr>
+<td><a href="results/sa/p65">p65</a></td>
+<td>25093.000</td>
+<td>868.34070</td>
+</tr>
+<tr>
+<td><a href="results/sa/p66">p66</a></td>
+<td>32522.450</td>
+<td>762.51041</td>
+</tr>
+<tr>
+<td><a href="results/sa/p67">p67</a></td>
+<td>24932.180</td>
+<td>900.71575</td>
+</tr>
+<tr>
+<td><a href="results/sa/p68">p68</a></td>
+<td>20884.000</td>
+<td>1051.84617</td>
+</tr>
+<tr>
+<td><a href="results/sa/p69">p69</a></td>
+<td>25202.000</td>
+<td>937.94478</td>
+</tr>
+<tr>
+<td><a href="results/sa/p70">p70</a></td>
+<td>32858.727</td>
+<td>845.59141</td>
+</tr>
+<tr>
+<td><a href="results/sa/p71">p71</a></td>
+<td>25924.628</td>
+<td>923.64509</td>
+</tr>
+</tbody></table>
+<h2 id="综合对比"><a href="#综合对比" class="headerlink" title="综合对比"></a>综合对比</h2><p>三种算法在71个问题上的实验结果如下，您可以点击<a href="results/details.zip">此链接</a>下载所有解的详细结果，包括解的最终费用，开启的设施以及顾客的赋值情况。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Result(greedy)</th>
+<th>Time(s)</th>
+<th>Result(brute-force)</th>
+<th>Time(s)</th>
+<th>Result(sa)</th>
+<th>Time(s)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="results/greedy/p1">p1</a></td>
+<td>12989.953</td>
+<td>0.00004</td>
+<td>8899.287</td>
+<td>0.01975</td>
+<td>8899.287</td>
+<td>49.67533</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p2">p2</a></td>
+<td>9288.850</td>
+<td>0.00007</td>
+<td>7943.402</td>
+<td>0.01708</td>
+<td>7943.402</td>
+<td>46.02201</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p3">p3</a></td>
+<td>10488.850</td>
+<td>0.00008</td>
+<td>9543.402</td>
+<td>0.01890</td>
+<td>9549.287</td>
+<td>43.71652</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p4">p4</a></td>
+<td>11688.850</td>
+<td>0.00036</td>
+<td>10947.538</td>
+<td>0.01488</td>
+<td>10947.538</td>
+<td>41.95468</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p5">p5</a></td>
+<td>10902.060</td>
+<td>0.00008</td>
+<td>8928.489</td>
+<td>0.00602</td>
+<td>8928.489</td>
+<td>49.61210</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p6">p6</a></td>
+<td>9832.666</td>
+<td>0.00007</td>
+<td>7729.489</td>
+<td>0.00627</td>
+<td>7729.489</td>
+<td>49.43371</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p7">p7</a></td>
+<td>11432.666</td>
+<td>0.00006</td>
+<td>9529.489</td>
+<td>0.00606</td>
+<td>9529.489</td>
+<td>49.90450</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p8">p8</a></td>
+<td>13032.666</td>
+<td>0.00016</td>
+<td>11259.081</td>
+<td>0.00579</td>
+<td>11259.650</td>
+<td>49.82498</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p9">p9</a></td>
+<td>10980.250</td>
+<td>0.00010</td>
+<td>8460.030</td>
+<td>0.03576</td>
+<td>8460.030</td>
+<td>38.91396</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p10">p10</a></td>
+<td>10458.043</td>
+<td>0.00009</td>
+<td>7617.000</td>
+<td>0.03523</td>
+<td>7617.000</td>
+<td>41.85766</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p11">p11</a></td>
+<td>11458.043</td>
+<td>0.00006</td>
+<td>9103.286</td>
+<td>0.03549</td>
+<td>9103.286</td>
+<td>39.19025</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p12">p12</a></td>
+<td>12458.043</td>
+<td>0.00004</td>
+<td>10363.911</td>
+<td>0.03088</td>
+<td>10363.911</td>
+<td>39.63912</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p13">p13</a></td>
+<td>11015.048</td>
+<td>0.00028</td>
+<td>8245.910</td>
+<td>63.38475</td>
+<td>8245.910</td>
+<td>62.59881</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p14">p14</a></td>
+<td>8514.791</td>
+<td>0.00006</td>
+<td>7125.641</td>
+<td>63.63613</td>
+<td>7125.641</td>
+<td>63.83618</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p15">p15</a></td>
+<td>10114.791</td>
+<td>0.00012</td>
+<td>8856.372</td>
+<td>62.66329</td>
+<td>8856.372</td>
+<td>56.31368</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p16">p16</a></td>
+<td>11714.791</td>
+<td>0.00009</td>
+<td>10456.372</td>
+<td>61.17692</td>
+<td>10456.372</td>
+<td>55.16921</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p17">p17</a></td>
+<td>10295.318</td>
+<td>0.00006</td>
+<td>8195.925</td>
+<td>60.36199</td>
+<td>8195.925</td>
+<td>62.16191</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p18">p18</a></td>
+<td>8543.171</td>
+<td>0.00007</td>
+<td>7100.582</td>
+<td>69.37253</td>
+<td>7129.274</td>
+<td>74.85285</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p19">p19</a></td>
+<td>10143.171</td>
+<td>0.00013</td>
+<td>8803.787</td>
+<td>66.69740</td>
+<td>8803.787</td>
+<td>59.92987</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p20">p20</a></td>
+<td>11743.171</td>
+<td>0.00009</td>
+<td>10403.787</td>
+<td>60.53454</td>
+<td>10403.787</td>
+<td>59.71305</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p21">p21</a></td>
+<td>12235.528</td>
+<td>0.00022</td>
+<td>8054.758</td>
+<td>64.53812</td>
+<td>8139.000</td>
+<td>56.84904</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p22">p22</a></td>
+<td>11363.414</td>
+<td>0.00009</td>
+<td>7092.000</td>
+<td>64.51618</td>
+<td>7124.000</td>
+<td>59.69487</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p23">p23</a></td>
+<td>12563.414</td>
+<td>0.00005</td>
+<td>8740.758</td>
+<td>64.48915</td>
+<td>8780.306</td>
+<td>54.46691</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p24">p24</a></td>
+<td>13763.414</td>
+<td>0.00008</td>
+<td>10267.971</td>
+<td>64.60072</td>
+<td>10298.306</td>
+<td>50.47274</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p25">p25</a></td>
+<td>78338.667</td>
+<td>0.00039</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>12233.713</td>
+<td>546.33127</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p26">p26</a></td>
+<td>63710.947</td>
+<td>0.00032</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>11152.713</td>
+<td>540.89889</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p27">p27</a></td>
+<td>65310.947</td>
+<td>0.00032</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>13117.713</td>
+<td>548.15456</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p28">p28</a></td>
+<td>66910.947</td>
+<td>0.00034</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>15183.478</td>
+<td>608.56645</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p29">p29</a></td>
+<td>65258.221</td>
+<td>0.00040</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>13831.838</td>
+<td>3797.52276</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p30">p30</a></td>
+<td>54927.860</td>
+<td>0.00038</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>12366.202</td>
+<td>666.75613</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p31">p31</a></td>
+<td>56927.860</td>
+<td>0.00043</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>14535.702</td>
+<td>642.78949</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p32">p32</a></td>
+<td>58927.860</td>
+<td>0.00145</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>17277.047</td>
+<td>629.18618</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p33">p33</a></td>
+<td>77701.857</td>
+<td>0.00035</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>12174.419</td>
+<td>531.56347</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p34">p34</a></td>
+<td>53887.154</td>
+<td>0.00033</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>11212.667</td>
+<td>585.61782</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p35">p35</a></td>
+<td>55487.154</td>
+<td>0.00035</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>13843.667</td>
+<td>565.90143</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p36">p36</a></td>
+<td>57087.154</td>
+<td>0.00065</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>14570.419</td>
+<td>500.77183</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p37">p37</a></td>
+<td>101999.196</td>
+<td>0.00024</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>11424.636</td>
+<td>427.68900</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p38">p38</a></td>
+<td>73636.480</td>
+<td>0.00020</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>10594.000</td>
+<td>512.98266</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p39">p39</a></td>
+<td>74636.480</td>
+<td>0.00022</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>11976.636</td>
+<td>429.34593</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p40">p40</a></td>
+<td>75636.480</td>
+<td>0.00020</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>13176.636</td>
+<td>428.54124</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p41">p41</a></td>
+<td>7276.556</td>
+<td>0.00021</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>6755.391</td>
+<td>100.04381</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p42">p42</a></td>
+<td>8068.351</td>
+<td>0.00010</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>5680.069</td>
+<td>93.40380</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p43">p43</a></td>
+<td>6383.929</td>
+<td>0.00009</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>5401.000</td>
+<td>80.17776</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p44">p44</a></td>
+<td>7995.223</td>
+<td>0.00021</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>7162.573</td>
+<td>113.07130</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p45">p45</a></td>
+<td>8089.250</td>
+<td>0.00013</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>6244.500</td>
+<td>104.98954</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p46">p46</a></td>
+<td>6915.251</td>
+<td>0.00009</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>5994.292</td>
+<td>95.73207</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p47">p47</a></td>
+<td>7705.325</td>
+<td>0.00015</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>6424.425</td>
+<td>127.02732</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p48">p48</a></td>
+<td>7874.275</td>
+<td>0.00019</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>5594.600</td>
+<td>125.31068</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p49">p49</a></td>
+<td>6960.522</td>
+<td>0.00009</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>5304.300</td>
+<td>98.86595</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p50">p50</a></td>
+<td>12441.358</td>
+<td>0.00025</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>9258.967</td>
+<td>139.52326</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p51">p51</a></td>
+<td>9382.546</td>
+<td>0.00034</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>7748.878</td>
+<td>198.40947</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p52">p52</a></td>
+<td>13378.456</td>
+<td>0.00016</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>9862.039</td>
+<td>167.22943</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p53">p53</a></td>
+<td>12650.089</td>
+<td>0.00019</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>8969.800</td>
+<td>165.41922</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p54">p54</a></td>
+<td>10536.867</td>
+<td>0.00016</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>9331.120</td>
+<td>136.80022</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p55">p55</a></td>
+<td>12258.408</td>
+<td>0.00019</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>7789.517</td>
+<td>157.08357</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p56">p56</a></td>
+<td>32522.303</td>
+<td>0.00113</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>21422.086</td>
+<td>1343.04327</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p57">p57</a></td>
+<td>37322.303</td>
+<td>0.00119</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>26388.956</td>
+<td>1220.42790</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p58">p58</a></td>
+<td>48522.303</td>
+<td>0.00209</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>37722.381</td>
+<td>1176.16916</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p59">p59</a></td>
+<td>30606.927</td>
+<td>0.00110</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>27645.265</td>
+<td>1169.97743</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p60">p60</a></td>
+<td>37243.427</td>
+<td>0.00082</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>20923.000</td>
+<td>1212.31783</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p61">p61</a></td>
+<td>40543.427</td>
+<td>0.00142</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>25621.657</td>
+<td>1052.55700</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p62">p62</a></td>
+<td>48243.427</td>
+<td>0.00082</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>33197.623</td>
+<td>957.01278</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p63">p63</a></td>
+<td>31843.780</td>
+<td>0.00091</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>25287.956</td>
+<td>975.96980</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p64">p64</a></td>
+<td>34081.806</td>
+<td>0.00061</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>20834.000</td>
+<td>1602.66377</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p65">p65</a></td>
+<td>36481.806</td>
+<td>0.00061</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>25093.000</td>
+<td>868.34070</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p66">p66</a></td>
+<td>42081.806</td>
+<td>0.00063</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>32522.450</td>
+<td>762.51041</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p67">p67</a></td>
+<td>32210.447</td>
+<td>0.00096</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>24932.180</td>
+<td>900.71575</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p68">p68</a></td>
+<td>38955.963</td>
+<td>0.00073</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>20884.000</td>
+<td>1051.84617</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p69">p69</a></td>
+<td>41955.963</td>
+<td>0.00071</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>25202.000</td>
+<td>937.94478</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p70">p70</a></td>
+<td>48955.963</td>
+<td>0.00128</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>32858.727</td>
+<td>845.59141</td>
+</tr>
+<tr>
+<td><a href="results/greedy/p71">p71</a></td>
+<td>31843.976</td>
+<td>0.00096</td>
+<td>-</td>
+<td>$\infty$</td>
+<td>25924.628</td>
+<td>923.64509</td>
+</tr>
+</tbody></table>
+<p>可以发现，模拟退火的算法要远好于贪心算法，并且与有结果的暴力求解的结果十分相近。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/中文/" rel="tag"># 中文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/01/leetcode-233/" rel="next" title="【LeetCode】233. Number of Digit One">
+                <i class="fa fa-chevron-left"></i> 【LeetCode】233. Number of Digit One
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/02/common-data-structures-and-algorithms/" rel="prev" title="Common Data Structures and Algorithms">
+                Common Data Structures and Algorithms <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/19709067" alt="r0beRT">
+            
+              <p class="site-author-name" itemprop="name">r0beRT</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/r0bertr" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:dr.paper@live.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题的表示"><span class="nav-number">2.1.</span> <span class="nav-text">问题的表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解的表示"><span class="nav-number">3.</span> <span class="nav-text">解的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Greedy-贪心策略"><span class="nav-number">4.</span> <span class="nav-text">Greedy 贪心策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂度分析"><span class="nav-number">4.1.</span> <span class="nav-text">复杂度分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-number">4.2.</span> <span class="nav-text">实验结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Brute-Force-暴力求解"><span class="nav-number">5.</span> <span class="nav-text">Brute Force 暴力求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果-1"><span class="nav-number">5.1.</span> <span class="nav-text">实验结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Simulated-Annealing-模拟退火"><span class="nav-number">6.</span> <span class="nav-text">Simulated Annealing 模拟退火</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数设定"><span class="nav-number">6.1.</span> <span class="nav-text">参数设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始解的生成"><span class="nav-number">6.2.</span> <span class="nav-text">初始解的生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邻域搜索"><span class="nav-number">6.3.</span> <span class="nav-text">邻域搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Metropolis-准则"><span class="nav-number">6.4.</span> <span class="nav-text">Metropolis 准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂度分析-1"><span class="nav-number">6.5.</span> <span class="nav-text">复杂度分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果-2"><span class="nav-number">6.6.</span> <span class="nav-text">实验结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合对比"><span class="nav-number">7.</span> <span class="nav-text">综合对比</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">r0beRT</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

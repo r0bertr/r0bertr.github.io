@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Slice Closure Interface …   看到了就会写上，不定更新。 Slice在Gotour里，slice是这样解释的：  An array has a fixed size. A slice, on the other hand, is adynamically-sized, flexible view into the elements of an array. Inprac">
+<meta name="keywords" content="中文,golang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang 语言特性总记">
+<meta property="og:url" content="http://yoursite.com/2017/10/28/golang-characteristic/index.html">
+<meta property="og:site_name" content="RASIS">
+<meta property="og:description" content="Slice Closure Interface …   看到了就会写上，不定更新。 Slice在Gotour里，slice是这样解释的：  An array has a fixed size. A slice, on the other hand, is adynamically-sized, flexible view into the elements of an array. Inprac">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2024-10-23T02:57:12.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang 语言特性总记">
+<meta name="twitter:description" content="Slice Closure Interface …   看到了就会写上，不定更新。 Slice在Gotour里，slice是这样解释的：  An array has a fixed size. A slice, on the other hand, is adynamically-sized, flexible view into the elements of an array. Inprac">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/28/golang-characteristic/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Golang 语言特性总记 | RASIS</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165027-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117165027-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RASIS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-8-puzzle">
+    <a href="/eight-puzzle/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-puzzle-piece"></i> <br>8-Puzzle</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-xiangqi">
+    <a href="/xiangqi/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-gamepad"></i> <br>XiangQi</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/28/golang-characteristic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="r0beRT">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/19709067">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RASIS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Golang 语言特性总记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-10-28 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-28T00:00:00+09:00">2017-10-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-23 11:57:12" itemprop="dateModified" datetime="2024-10-23T11:57:12+09:00">2024-10-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>Slice</li>
+<li>Closure</li>
+<li>Interface</li>
+<li>…</li>
+</ul>
+<hr>
+<p><br>看到了就会写上，不定更新。</p>
+<h2 id="Slice"><a href="#Slice" class="headerlink" title="Slice"></a>Slice</h2><p>在Gotour里，<code>slice</code>是这样解释的：</p>
+<blockquote>
+<p>An array has a fixed size. A slice, on the other hand, is a<br>dynamically-sized, flexible view into the elements of an array. In<br>practice, slices are much more common than arrays.</p>
+</blockquote>
+<p>简单翻译一下，<code>slice</code>就是一个动态数组，大家平时一般都用它，而不是用定长的数组。</p>
+<p>先简单看一下<code>slice</code>的使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var s []int  // s is a nil slice</span><br><span class="line"></span><br><span class="line">primesArr := [6]int&#123;2, 3, 5, 7, 11, 13&#125;  // primesArr is an array</span><br><span class="line">primesSlice := []int&#123;2, 3, 5, 7, 11, 13&#125;  // primeSlice is a slice</span><br><span class="line"></span><br><span class="line">primesSlice = primesSlice[0:2] // &#123;2, 3&#125;</span><br><span class="line">primesSlice = primesSlice[2:4] // &#123;5, 7&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然而，Gotour后还提到了，【<code>slice</code>是数组的引用】，那么这就是另外一个故事了。在Golang中，<code>array</code>和<code>slice</code>都有两个固有的属性<code>length</code>和<code>capacity</code>，<code>array</code>中这两者是恒等的，而<code>slice</code>中则不然。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a [5]int</span><br><span class="line">var s []int</span><br><span class="line">var ss = make([]int, 5)</span><br><span class="line">fmt.Println(len(a), cap(a), len(s), cap(s), len(ss), cap(ss))</span><br><span class="line">    // 5 5 0 0 5 5</span><br><span class="line">fmt.Println(len(ss[0:1]), cap(ss[0:1]))</span><br><span class="line">    // 1 5</span><br><span class="line">fmt.Println(len(ss[2:3]), cap(ss[2:3]))</span><br><span class="line">    // 1 3</span><br></pre></td></tr></table></figure>
+
+<p>所以对于<code>slice</code>正确的理解，是将其看作一个数组的引用，而不是看作一个所谓的【动态数组】。</p>
+<ul>
+<li><p>用数组初始化<code>slice</code>的时候，可以看作是引用了内存里的一个无名数组。</p>
+</li>
+<li><p><code>capacity</code>记录的是这个<code>slice</code>所引用的数组的长度，而<code>length</code>记录的是当前引用过来的元素个数。</p>
+</li>
+<li><p><code>slice</code>可进行随意的切分，但是从左边切是不可恢复的，从右边切是可恢复的，同时一旦这个<code>slice</code>的某个元素被更改，那么由这个<code>slice</code>切出来的所有<code>slice</code>中这个元素都将被更改。</p>
+</li>
+<li><p>直接创建的<code>slice</code>空变量是没有容纳能力的，要使用<code>make</code>方法；若要进行深复制，也要使用<code>make</code>方法来创建一个新的<code>slice</code>。</p>
+</li>
+</ul>
+<h2 id="Closure"><a href="#Closure" class="headerlink" title="Closure"></a>Closure</h2><p>闭包可能是学习Golang的第一个难题，但是闭包并不是Golang专属的特性，在很多其他语言中也有闭包，最典型的——Javascript.</p>
+<p>闭包的问题难在难以界定——闭包到底是什么？能不能有一言可以蔽之？在Gotour中对闭包的解释是</p>
+<blockquote>
+<p>A closure is a function value that references variables from outside its body.<br>The function may access and assign to the referenced variables; in the sense<br>the function is “bound” to the variables.</p>
+</blockquote>
+<p>简而言之，就是在函数内可以保持一个函数外的局部变量的值，且不需要这个值进行任何形式的传递。我认为这段话基本上把闭包最重要的特点描述出来了——利用函数对局部变量作用域进行灵活操作。</p>
+<p>Gotour里给的例子是一个简单的返回函数闭包，实际上闭包的用途实际上远不止于此，典型的例子如Javascript中对于循环添加事件的处理，但是其中最核心的想法是不变的，就是将局部变量保持在一个【看似】无法访问它的作用域中。</p>
+<p>但是实际上，编成的时候大部分用到闭包的情况都是靠经验判断的，我们平时应该多多积累，在我们编程卡住的时候，不妨想想，这地方是否能用一用闭包？</p>
+<h2 id="Interface"><a href="#Interface" class="headerlink" title="Interface"></a>Interface</h2><p><code>Interface</code>可以说是Golang里最最最重要的特点了，在Golang里实现【面向对象】特点全靠它，但它同时也是一个较难理解的概念。</p>
+<p>让我们先来看Gotour是怎么说的</p>
+<blockquote>
+<p>An interface type is defined as a set of method signatures.<br>A value of interface type can hold any value that implements those methods.</p>
+</blockquote>
+<p>这两句简短的话道出了<code>Interface</code>大量的奥秘。首先，interface是一个方法签名集，即interface可以看作是一个集合，这个集合的元素是函数（函数签名）；其次，<code>interface</code>又可以作为任何实现了它方法的值的变量，这句话比较难理解，让我们看几个例子。</p>
+<ol>
+<li><p>首先是我们非常熟悉的<code>fmt.Println()</code>函数，可以看到，官方文档中，这个函数接受的参数是一系列的【空接口】。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func Println(a ...interface&#123;&#125;) (n int, err error)</span><br></pre></td></tr></table></figure>
+
+<p> 回想一下我们使用这个函数的场景，任何类型的变量都可以作为参数传入这个函数中，没错，就是因为<code>interface{}</code>是一个函数签名集为空的接口，既然它没有任何方法需要实现，那么根据第二句话，任何类型的变量实际上都是<code>interface{}</code>类型，或者说都可以转化为<code>interface{}</code>类型。在很多处理未知类型的情况下（模板编程），Golang提供了<code>interface{}</code>给我们使用。</p>
+</li>
+<li><p>文件读写</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">file, _ := os.OpenFile(somePath, os.O_RDONLY, os.ModePerm)</span><br><span class="line">msg := make([]byte, 0)</span><br><span class="line">file.Read(msg)</span><br><span class="line">fmt.Println(string(msg))</span><br></pre></td></tr></table></figure>
+
+<p> 上面是一个简单的读文件过程，<code>os.OpenFile</code>返回一个<code>os.File</code>结构体，而调用的<code>os.File</code>结构体的<code>Read</code>方法是接口<code>io.Reader</code>里的方法，也就是说<code>os.File</code>实现了接口<code>io.Reader</code>.但是这并不足以体现接口在这里的作用，我们再来看下一段代码</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">file, _ := os.OpenFile(somePath, os.O_RDONLY, os.ModePerm)</span><br><span class="line">jsonDecoder := json.NewDecoder(file)</span><br><span class="line">for jsonDecoder.More() &#123;</span><br><span class="line">	var obj SomeStruct</span><br><span class="line">	jsonDecoder.Decode(\&amp;obj)</span><br><span class="line">       fmt.Println(obj)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 上面是一个读取json文件的例子，注意到<code>json</code>包中的<code>NewDecoder</code>方法返回一个JSON解码器，能够将JSON文件中的条目写入一个结构体中，而这个方法接受的参数类型并不是<code>os.File</code>，而是<code>io.Reader</code>，也就是说任何实现了这个接口的结构体都可以被当作参数传入，因为只要实现了<code>io.Reader</code>的方法就【足够】成为一个JSON解码器了。这样一来，无论是<code>strings.Reader</code>还是<code>os.File</code>，甚至是你自己实现的自定义结构体，都可以成为JSON解码器，一定程度上说，这就是体现了面向对象里的继承和多态的思想，大大提高了开发效率。</p>
+</li>
+</ol>
+<p>接口，是一个函数签名的集合，更是也是一个可自定义的抽象类型，正是它的存在使得在Golang里应用面向对象的设计思想成为可能。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://tour.golang.org/" target="_blank" rel="noopener">GoTour</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/中文/" rel="tag"># 中文</a>
+          
+            <a href="/tags/golang/" rel="tag"># golang</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/31/golang-log/" rel="prev" title="Golang Log">
+                Golang Log <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/19709067" alt="r0beRT">
+            
+              <p class="site-author-name" itemprop="name">r0beRT</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/r0bertr" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:dr.paper@live.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Slice"><span class="nav-number">1.</span> <span class="nav-text">Slice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Closure"><span class="nav-number">2.</span> <span class="nav-text">Closure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Interface"><span class="nav-number">3.</span> <span class="nav-text">Interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">r0beRT</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

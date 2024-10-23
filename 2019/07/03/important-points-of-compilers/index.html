@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="The principles and techniques for compiler design are applicable to so many other domains that they are likely to be reused many times in the career of a computer scientist. The study of compiler wri">
+<meta name="keywords" content="English">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Important Points of Compilers">
+<meta property="og:url" content="http://yoursite.com/2019/07/03/important-points-of-compilers/index.html">
+<meta property="og:site_name" content="RASIS">
+<meta property="og:description" content="The principles and techniques for compiler design are applicable to so many other domains that they are likely to be reused many times in the career of a computer scientist. The study of compiler wri">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/phases-of-a-compiler.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/NFA-epsilon.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/NFA-a.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/NFA-union.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/NFA-concat.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/NFA-asterisk.png">
+<meta property="og:updated_time" content="2024-10-23T02:57:12.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Important Points of Compilers">
+<meta name="twitter:description" content="The principles and techniques for compiler design are applicable to so many other domains that they are likely to be reused many times in the career of a computer scientist. The study of compiler wri">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/03/important-points-of-compilers/phases-of-a-compiler.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/03/important-points-of-compilers/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Important Points of Compilers | RASIS</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117165027-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117165027-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RASIS</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-8-puzzle">
+    <a href="/eight-puzzle/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-puzzle-piece"></i> <br>8-Puzzle</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-xiangqi">
+    <a href="/xiangqi/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-gamepad"></i> <br>XiangQi</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/03/important-points-of-compilers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="r0beRT">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/19709067">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RASIS">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Important Points of Compilers
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-03 13:54:13" itemprop="dateCreated datePublished" datetime="2019-07-03T13:54:13+09:00">2019-07-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-23 11:57:12" itemprop="dateModified" datetime="2024-10-23T11:57:12+09:00">2024-10-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>The principles and techniques for compiler design are applicable to so many other domains that they are likely to be reused many times in the career of a computer scientist. The study of compiler writing touches upon programming languages, machine architecture, language theory, algorithms, and software engineering.</p>
+</blockquote>
+<h1 id="The-General-Structure-of-a-Compiler"><a href="#The-General-Structure-of-a-Compiler" class="headerlink" title="The General Structure of a Compiler"></a>The General Structure of a Compiler</h1><img src="/2019/07/03/important-points-of-compilers/phases-of-a-compiler.png">
+
+<h1 id="Context-Free-Grammars"><a href="#Context-Free-Grammars" class="headerlink" title="Context-Free Grammars"></a>Context-Free Grammars</h1><p>A context-free grammar $G$ is defined by the 4-tuple</p>
+<p>$$<br>G = (V, \Sigma, R, S)<br>$$</p>
+<p>where</p>
+<ol>
+<li>$V$ is a set of <em>nonterminals</em>, sometimes called &quot;syntactic variables.&quot; Each nonterminal represents a set of strings of terminals, in a manner we shall describe.</li>
+<li>$\Sigma$ is a set of <em>terminal</em> symbols, sometimes referred to as &quot;tokens.&quot; The terminals are the elementary symbols of the language defined by the grammar.</li>
+<li>$R$ is a set of <em>productions</em>, where each production consists of a nonterminal, called the head or left side of the production, an arrow, and a sequence of terminals and/or nonterminals, called the body or right side of the production. In fact, $R$ is a finite relation from $V$ to $(V \cup \Sigma)^*$.</li>
+<li>$S$ is designation of one of the nonterminals as the start symbol.</li>
+</ol>
+<p>All the terminal strings that can be derived from the start symbol form the <strong>language</strong> defined by the grammar.</p>
+<h1 id="Important-Concepts-in-Lexical-Analysis"><a href="#Important-Concepts-in-Lexical-Analysis" class="headerlink" title="Important Concepts in Lexical Analysis"></a>Important Concepts in Lexical Analysis</h1><blockquote>
+<p>A <em>token</em> is a pair consisting of a token name and an optional attribute value. The token name is an abstract symbol representing a kind of lexical unit, e.g., a particular keyword, or a sequence of input characters denoting an identifier. The token names are the input symbols that the parser processes. In what follows, we shall generally write the name of a token in boldface. We will often refer to a token by its token name.</p>
+</blockquote>
+<blockquote>
+<p>A <em>pattern</em> is a description of the form that the lexemes of a token may take. In the case of a keyword as a token, the pattern is just the sequence of characters that form the keyword. For identifiers and some other tokens, the pattern is a more complex structure that is matched by many strings.</p>
+</blockquote>
+<blockquote>
+<p>A <em>lexeme</em> is a sequence of characters in the source program that matches the pattern for a token and is identified by the lexical analyzer as an instance of that token.</p>
+</blockquote>
+<blockquote>
+<p>An <em>alphabet</em> is any finite set of symbols.</p>
+</blockquote>
+<blockquote>
+<p>A <em>string</em> over an alphabet is a finite sequence of symbols drawn from that alphabet.</p>
+</blockquote>
+<blockquote>
+<p>A <em>language</em> is any countable set of strings over some fixed alphabet.</p>
+</blockquote>
+<blockquote>
+<p>A <em>regular set</em> is a language that can be defined by a regular expression.</p>
+</blockquote>
+<h1 id="Regular-Expressions"><a href="#Regular-Expressions" class="headerlink" title="Regular Expressions"></a>Regular Expressions</h1><p>Regular expressions are defined by the following rules:</p>
+<ol>
+<li>$\epsilon$ is a regular expression, and $L(\epsilon)=\{\epsilon\}$.</li>
+<li>If $a \in \Sigma$, then $a$ is a regular expression, and $L(a) = \{a\}$.</li>
+</ol>
+<p>Suppose $r$ and $s$ are regular expressions.</p>
+<ol start="3">
+<li>$r|s$ is a regular expression and $L(r|s)=L(r) \cup L(s)$.</li>
+<li>$rs$ is a regular expression and $L(rs)=L(r)L(s)$.</li>
+<li>$r^*$ is a regular expression and $L(r^*)=L(r)^*$.</li>
+<li>$(r)$ is a regular expression and $L((r))=L(r)$.</li>
+</ol>
+<p>There are also plenty of extensions of regular expressions.</p>
+<ol start="7">
+<li>$r^+$ is a regular expression and $L(r^+)=L(r)^+$.</li>
+<li>$r?$ is a regular expression and $L(r?)=L(r) \cup \{\epsilon\}$.</li>
+<li>$[a_1a_2\cdots a_n]$ is a regular expression with $a_1,a_2,\cdots,a_n$ are all regular expressions and it is a shorthand of $a_1|a_2|\cdots|a_n$.</li>
+</ol>
+<p>Regular expressions have following properties:</p>
+<ol>
+<li>$r|s=s|r$.</li>
+<li>$r|(s|t)=(r|s)|t$.</li>
+<li>$r(st)$=$(rs)t$.</li>
+<li>$r(s|t)=rs|rt$; $(s|t)r=sr|tr$.</li>
+<li>$\epsilon r=r\epsilon=r$.</li>
+<li>$r^*=(r|\epsilon)^*$.</li>
+<li>$r^{**}=r^*$.</li>
+</ol>
+<h1 id="Finite-Automata"><a href="#Finite-Automata" class="headerlink" title="Finite Automata"></a>Finite Automata</h1><blockquote>
+<p>Finite automata are recognizers: they simply say &quot;yes&quot; or &quot;no&quot; about each possible input string.</p>
+</blockquote>
+<h2 id="Nondeterministic-Finite-Automata"><a href="#Nondeterministic-Finite-Automata" class="headerlink" title="Nondeterministic Finite Automata"></a>Nondeterministic Finite Automata</h2><p>A <strong>nondeterministic finite automaton(NFA)</strong> is defined by a 5-tuple, $(S, \Sigma, T, s_0, F)$, consisting of</p>
+<ol>
+<li>A finite set of states $S$.</li>
+<li>A set of input symbols $\Sigma$, the input alphabet. We assume that $\epsilon$ is never a member of $\Sigma$.</li>
+<li>A transition function $T$ that gives, for each state, and for each symbol in $\Sigma \cup \{\epsilon\}$ a set of next states.</li>
+<li>A state $s_0$ from $S$ that is distinguished as the start state or the initial state.</li>
+<li>A set of states $F$, a subset of $S$, that is distinguished as the accepting states or the final states.</li>
+</ol>
+<h2 id="Deterministic-Finite-Automata"><a href="#Deterministic-Finite-Automata" class="headerlink" title="Deterministic Finite Automata"></a>Deterministic Finite Automata</h2><p>A <strong>deterministic finite automaton(DFA)</strong> is a special case of an NFA where:</p>
+<ol>
+<li>There are no moves on input $\epsilon$.</li>
+<li>For each state $s$ and input symbol $a$, there is exactly one edge out of $s$ labeled $a$.</li>
+</ol>
+<h2 id="Algorithm-From-NFA-to-DFA"><a href="#Algorithm-From-NFA-to-DFA" class="headerlink" title="Algorithm: From NFA to DFA"></a>Algorithm: From NFA to DFA</h2><p><strong>INPUT</strong> An NFA $N$.</p>
+<p><strong>OUTPUT</strong> A DFA $D$ accepting the same language as $N$.</p>
+<p><strong>STEPS</strong></p>
+<ol>
+<li>Compute $\epsilon\text{-}closure(s_0)$ as the initial unmarked state $s_0’$ of $D$.</li>
+<li>Do the following until all the states in $D$ is marked:<ol>
+<li>Pick up an unmarked state $s’$ in $D$, mark $s’$.</li>
+<li>For all symbols $a$ in $\Sigma$, do the following:<ol>
+<li>Compute $\epsilon\text{-}closure(move(S_{s’}, a))$ as a state $s_i’$ in $D$, where $S_{s’}$ is the set of states in $N$ corresponding to the the state $s’$ in $D$.</li>
+<li>If $s_i’$ is not a existed state of $D$, add it as an unmarked new state.</li>
+<li>Create an edge $a$ between $s’$ and $s_i’$.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>EXPLANATION</strong></p>
+<ol>
+<li>$\epsilon\text{-}closure(s)=\{s | s\text{ can be reached from }s_0\text{ through an edge labeled }\epsilon\}$.</li>
+<li>$move(S,a)=\{s|s\text{ can be reached from states in }S\text{ through an edge labeled }a\}$.</li>
+</ol>
+<h2 id="Algorithm-Simulating-an-NFA"><a href="#Algorithm-Simulating-an-NFA" class="headerlink" title="Algorithm: Simulating an NFA"></a>Algorithm: Simulating an NFA</h2><p><strong>INPUT</strong> An input string $x$ terminated by an end-of-file character <code>eof</code>. An NFA $N$.</p>
+<p><strong>OUTPUT</strong> Answer &quot;true&quot; if $N$ accepts $x$; &quot;false&quot; otherwise.</p>
+<p><strong>STEPS</strong></p>
+<ol>
+<li>Compute $S=\epsilon\text{-}closure(s_0)$, where $s_0$ is the start state of $N$.</li>
+<li>Do the following until an <code>eof</code> is read:<ol>
+<li>Read a character $c$.</li>
+<li>Let $S=\epsilon\text{-}closure(move(S,c))$.</li>
+</ol>
+</li>
+<li>If $S \cap F \ne \emptyset$, answer &quot;true&quot; and otherwise, answer &quot;false&quot;.</li>
+</ol>
+<h2 id="Algorithm-Constructing-an-NFA-from-a-Regular-Expression"><a href="#Algorithm-Constructing-an-NFA-from-a-Regular-Expression" class="headerlink" title="Algorithm: Constructing an NFA from a Regular Expression"></a>Algorithm: Constructing an NFA from a Regular Expression</h2><p><strong>INPUT</strong> A regular expression $r$ over alphabet $\Sigma$.</p>
+<p><strong>OUTPUT</strong> An NFA $N$ accepting $L(r)$.</p>
+<p><strong>METHOD</strong></p>
+<p>Apply the following rules.</p>
+<ol>
+<li>The NFA accepting $L(\epsilon)$ is</li>
+</ol>
+<img src="/2019/07/03/important-points-of-compilers/NFA-epsilon.png">
+
+<ol start="2">
+<li>The NFA accepting $L(a)$, where $L(a)=\{a\}$, is</li>
+</ol>
+<img src="/2019/07/03/important-points-of-compilers/NFA-a.png">
+
+<ol start="3">
+<li>The NFA accepting $L(s|t)$, where both $s$ and $t$ are regular expressions, is</li>
+</ol>
+<img src="/2019/07/03/important-points-of-compilers/NFA-union.png">
+
+<ol start="4">
+<li>The NFA accepting $L(st)$, where both $s$ and $t$ are regular expressions, is</li>
+</ol>
+<img src="/2019/07/03/important-points-of-compilers/NFA-concat.png">
+
+<ol start="5">
+<li>The NFA accepting $L(s^*)$, where $s$ is a regular expression, is</li>
+</ol>
+<img src="/2019/07/03/important-points-of-compilers/NFA-asterisk.png">
+
+<h2 id="Algorithm-Constructing-a-DFA-from-a-Regular-Expression"><a href="#Algorithm-Constructing-a-DFA-from-a-Regular-Expression" class="headerlink" title="Algorithm: Constructing a DFA from a Regular Expression"></a>Algorithm: Constructing a DFA from a Regular Expression</h2><p><strong>INPUT</strong> A regular expression $r$ over alphabet $\Sigma$.</p>
+<p><strong>OUTPUT</strong> A DFA $D$ accepting $L(r)$.</p>
+<p><strong>STEPS</strong></p>
+<ol>
+<li>Construct a syntax tree $T$ from the augmented regular expression $(r)\#$, and give each leaf a number, called a position. Note that all the leaves of $T$ is a single symbol.</li>
+<li>Compute $firstpos(n_0)$ as the unmarked start state $s_0$ of $D$, where $n_0$ is the root of $T$.</li>
+<li>Do the following until all the states in $D$ is marked:<ol>
+<li>Pick up an unmarked state $s$ in $D$, mark $s$.</li>
+<li>For all symbols $a$ in $\Sigma$, do the following:<ol>
+<li>Compute $followpos(p)$ for all $p$ in $s$ whose symbol in $T$ is $a$ as a state $s_i$.</li>
+<li>If $s_i$ is not a existed state of $D$, add it as an unmarked new state.</li>
+<li>Create an edge $a$ between $s$ and $s_i$.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>EXPLANATION</strong></p>
+<ol>
+<li>$firstpos(n)=\{\text{some positions in the subtree rooted at node }n\}$<br> Suppose the language expressed by the subtree rooted at $n$ is $L(T_n)$, and all the possible first symbols of strings in $L(T_n)$ form a set $\sigma$. $firstpos(n)$ is the set of positions corresponding to the symbols in $\sigma$. <!-- The rules for computing $firstpos(n)$ are:
+ 1. If $n$ is a leaf labeled $\epsilon$, $firstpos(n)=\emptyset$.
+ 2. If $n$ is a leaf with position $i$ and it is not labeled $\epsilon$, $firstpos(n)=\\{i\\}$.
+ 3. If $n = n_1|n_2$, $firstpos(n)=firstpos(n_1) \cup firstpos(n_2)$.
+ 4. If $n = n_1n_2$, if $nullable(n_1)$, $firstpos(n)=firstpos(n_1) \cup firstpos(n_2)$, else $firstpos(n)=firstpos(n_1)$, where $nullable(n_1)$ means the subtree rooted at $n_1$ can generate an $\epsilon$.
+ 5. If $n = n_1^\*$, $firstpos(n) = firstpos(n_1)$. --></li>
+<li>$followpos(p)=\{\text{positions corresponding to all the symbols that are possibly the next one of position }p\}$</li>
+</ol>
+<h2 id="Algorithm-Minimizing-the-Number-of-States-of-a-DFA"><a href="#Algorithm-Minimizing-the-Number-of-States-of-a-DFA" class="headerlink" title="Algorithm: Minimizing the Number of States of a DFA"></a>Algorithm: Minimizing the Number of States of a DFA</h2><p><strong>INPUT</strong> A DFA $D=(S, \Sigma, T, s_0, F)$.</p>
+<p><strong>OUTPUT</strong> A DFA $D’$ accepting the same language as $D$ and having as few states as possible.</p>
+<p><strong>STEPS</strong></p>
+<ol>
+<li>Let $\Pi = {F, S-F}$ be the initial partition.</li>
+<li>Do the following until $\Pi$ remains the same:<br> For each group $G$ in $\Pi$, partition $G$ into subgroups such that two states $s$ and $t$ are in the same group if and only if for all input symbols $a$, state $s$ and $t$ have transitions on $a$ to states in the same group of $\Pi$.</li>
+<li>Choose one state of each group in $\Pi$ as the representative for that group, which is also a state in $D’$. The start/accepting state of $D’$ is the representative of the group containing the start/accepting state of $D$.</li>
+</ol>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p>Alfred V. A., et al. <em>Compilers Principles, Techniques, &amp; Tools Second Edition</em></p>
+<p>Context-Free Grammar - Wikipedia. <a href="https://en.wikipedia.org/wiki/Context-free_grammar" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/English/" rel="tag"># English</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/02/leetcode-493/" rel="next" title="【LeetCode】493. Reverse Pairs">
+                <i class="fa fa-chevron-left"></i> 【LeetCode】493. Reverse Pairs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/07/notes-on-mathematical-analysis/" rel="prev" title="数学分析要点">
+                数学分析要点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/19709067" alt="r0beRT">
+            
+              <p class="site-author-name" itemprop="name">r0beRT</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/r0bertr" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:dr.paper@live.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-General-Structure-of-a-Compiler"><span class="nav-number">1.</span> <span class="nav-text">The General Structure of a Compiler</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Context-Free-Grammars"><span class="nav-number">2.</span> <span class="nav-text">Context-Free Grammars</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Important-Concepts-in-Lexical-Analysis"><span class="nav-number">3.</span> <span class="nav-text">Important Concepts in Lexical Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Regular-Expressions"><span class="nav-number">4.</span> <span class="nav-text">Regular Expressions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Finite-Automata"><span class="nav-number">5.</span> <span class="nav-text">Finite Automata</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nondeterministic-Finite-Automata"><span class="nav-number">5.1.</span> <span class="nav-text">Nondeterministic Finite Automata</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deterministic-Finite-Automata"><span class="nav-number">5.2.</span> <span class="nav-text">Deterministic Finite Automata</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm-From-NFA-to-DFA"><span class="nav-number">5.3.</span> <span class="nav-text">Algorithm: From NFA to DFA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm-Simulating-an-NFA"><span class="nav-number">5.4.</span> <span class="nav-text">Algorithm: Simulating an NFA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm-Constructing-an-NFA-from-a-Regular-Expression"><span class="nav-number">5.5.</span> <span class="nav-text">Algorithm: Constructing an NFA from a Regular Expression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm-Constructing-a-DFA-from-a-Regular-Expression"><span class="nav-number">5.6.</span> <span class="nav-text">Algorithm: Constructing a DFA from a Regular Expression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm-Minimizing-the-Number-of-States-of-a-DFA"><span class="nav-number">5.7.</span> <span class="nav-text">Algorithm: Minimizing the Number of States of a DFA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">r0beRT</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
